@@ -1,5 +1,7 @@
 <template>
-  <div class="max-w-6xl mx-auto py-10 px-4">
+      <AppLayout >
+<div class=" py-10 px-4">
+
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Job Applications</h1>
 
     <div class="mb-4">
@@ -73,11 +75,13 @@
       </table>
     </div>
   </div>
+  </AppLayout>
 </template>
 
 <script setup>
 import { Link, router } from '@inertiajs/vue3'
 import { ref } from 'vue'
+import AppLayout from '@/layouts/AppLayout.vue';
 
 defineProps({
   jobApplications: Array,
