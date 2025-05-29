@@ -20,11 +20,14 @@
         >
           <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
             <div>
-              <div class="text-base font-semibold text-gray-900 dark:text-gray-100">
+              <Link
+                :href="`/interviews/${interview.id}`"
+                class="text-base font-semibold text-gray-900 dark:text-gray-100 hover:underline"
+              >
                 {{ interview.job_application.position }}
                 <span class="text-gray-400 font-normal">@</span>
                 {{ interview.job_application.company }}
-              </div>
+              </Link>
               <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 {{ interview.location }}
               </div>
