@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Inertia\Inertia;
 use App\Models\Interview;
 use Illuminate\Http\Request;
@@ -40,15 +41,19 @@ class InterviewController extends Controller
      */
  public function store(Request $request)
     {
-        $request->validate([
-            'job_application_id' => 'required|exists:job_applications,id',
-            'scheduled_at' => 'required|date',
-            'location' => 'required|string|max:255',
-        ]);
+   $request->validate([
+        'job_application_id' => 'required|exists:job_applications,id',
+        'scheduled_at' => 'required|date',
+        'location' => 'required|string|max:255',
+    ]);
 
-        Interview::create($request->all());
+    Interview::create([
+        'job_application_id' => $request->input('job_application_id'),
+        'scheduled_at' => Carbon::parse($request->input('scheduled_at')),
+        'location' => $request->input('location'),
+    ]);
 
-        return redirect()->route('interviews.index');
+    return redirect()->route('interviews.index');
     }
     /**
      * Display the specified resource.
