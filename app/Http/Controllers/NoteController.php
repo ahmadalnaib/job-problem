@@ -12,17 +12,21 @@ class NoteController extends Controller
     /**
      * Display a listing of the resource.
      */
-   public function index()
-    {
-        $notes = Note::with('jobApplication')
-            ->whereHas('jobApplication', fn($q) => $q->where('user_id', auth()->id()))
-            ->latest()
-            ->get();
+   public function index(Request $request)
+{
+    $query = Note::with('jobApplication')
+        ->whereHas('jobApplication', fn($q) => $q->where('user_id', auth()->id()));
 
-        return Inertia::render('Notes/Index', [
-            'notes' => $notes
-        ]);
+    if ($request->filled('job_application_id')) {
+        $query->where('job_application_id', $request->job_application_id);
     }
+
+    $notes = $query->latest()->get();
+
+    return Inertia::render('Notes/Index', [
+        'notes' => $notes
+    ]);
+}
 
     public function create()
     {

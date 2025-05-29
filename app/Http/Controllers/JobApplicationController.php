@@ -13,7 +13,9 @@ class JobApplicationController extends Controller
      */
 public function index()
 {
-    $jobApplications = JobApplication::where('user_id', auth()->id())->get();
+ $jobApplications = JobApplication::with('notes') // eager load notes
+        ->where('user_id', auth()->id())
+        ->get();
 
     return Inertia::render('JobApplications/Index', [
         'jobApplications' => $jobApplications,
@@ -51,10 +53,15 @@ public function create()
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+public function show(JobApplication $jobApplication)
+{
+    $jobApplication->load('notes');
+
+    return Inertia::render('JobApplications/Show', [
+        'application' => $jobApplication,
+    ]);
+}
+
 
     /**
      * Show the form for editing the specified resource.
