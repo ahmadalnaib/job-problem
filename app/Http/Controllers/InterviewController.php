@@ -58,10 +58,17 @@ class InterviewController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+// InterviewController.php
+public function show(Interview $interview)
+{
+    // $this->authorize('view', $interview); // optional auth check
+    $interview->load('jobApplication.user');
+
+    return Inertia::render('Interviews/Show', [
+        'interview' => $interview,
+    ]);
+}
+
 
     /**
      * Show the form for editing the specified resource.
