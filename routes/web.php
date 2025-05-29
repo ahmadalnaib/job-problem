@@ -19,8 +19,8 @@ Route::get('/', function () {
 // })->middleware(['auth', 'verified'])->name('dashboard');
  Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
+ Route::resource('notes', NoteController::class);
 Route::resource('job-applications', JobApplicationController::class);
-Route::resource('notes', NoteController::class);
 Route::resource('interviews', InterviewController::class);
 
 // Route::get('/test-email', function () {
