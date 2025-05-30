@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Models\Interview;
 use Illuminate\Http\Request;
 use App\Models\JobApplication;
+use App\Jobs\SendInterviewReminder;
 
 class InterviewController extends Controller
 {
@@ -39,22 +40,27 @@ class InterviewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
- public function store(Request $request)
-    {
-   $request->validate([
+public function store(Request $request)
+{
+    $request->validate([
         'job_application_id' => 'required|exists:job_applications,id',
         'scheduled_at' => 'required|date',
         'location' => 'required|string|max:255',
     ]);
 
-    Interview::create([
+    // Save the interview
+    $interview = Interview::create([
         'job_application_id' => $request->input('job_application_id'),
         'scheduled_at' => Carbon::parse($request->input('scheduled_at')),
         'location' => $request->input('location'),
     ]);
 
+    // ⏰ Dispatch the reminder job 3 hours before
+    SendInterviewReminder::dispatch($interview)
+        ->delay($interview->scheduled_at->subHours(3));
+
     return redirect()->route('interviews.index');
-    }
+}
     /**
      * Display the specified resource.
      */

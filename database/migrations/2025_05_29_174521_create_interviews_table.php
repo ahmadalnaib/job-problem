@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('interviews', function (Blueprint $table) {
-            $table->id();
+              $table->id();
               $table->foreignId('job_application_id')->constrained()->onDelete('cascade');
-    $table->dateTime('scheduled_at');
-    $table->string('location');
-    $table->boolean('reminder_sent')->default(false);
-            $table->timestamps();
+              $table->dateTime('scheduled_at');
+              $table->string('location');
+              $table->boolean('reminder_sent')->default(false);
+              $table->timestamps();
         });
     }
 
