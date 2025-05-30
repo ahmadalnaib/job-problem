@@ -68,12 +68,30 @@
                             <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-800 px-3 py-1 font-semibold text-xs text-gray-700 dark:text-gray-300">
                                 📅 {{ formatDate(selected.applied_at) }}
                             </span>
-                            <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-800 px-3 py-1 font-semibold text-xs text-gray-700 dark:text-gray-300">
+                            <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-800 px-3 py-1 font-semibold text-xs text-gray-700 dark:text-gray-300 ">
                                 🏢 {{ selected.company }}
                             </span>
                         </div>
-                        <div class="mb-4 text-gray-700 dark:text-gray-200">
-                            <strong>Company:</strong> {{ selected.company }}
+                     
+                        <!-- Description -->
+                        <div class="mb-4 text-gray-700 dark:text-gray-200" v-if="selected.description">
+                            <strong>Description:</strong>
+                            <span class="block whitespace-pre-line">{{ selected.description }}</span>
+                        </div>
+                       
+                        <!-- Job Link as button -->
+                        <div v-if="selected.job_link" class="mb-4">
+                            <a
+                                :href="selected.job_link"
+                                target="_blank"
+                                rel="noopener"
+                                class="inline-flex items-center gap-1 rounded px-4 py-2 text-blue-600 font-xs shadow transition"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 010 5.656m1.415-1.415a6 6 0 10-8.486-8.486 6 6 0 008.486 8.486zm-1.415 1.415L21 21" />
+                                </svg>
+                                View Job Link
+                            </a>
                         </div>
                     </div>
                     <!-- Action buttons fixed at the bottom right -->

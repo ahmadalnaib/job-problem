@@ -39,6 +39,8 @@ public function create()
         'company' => 'required|string|max:255',
         'position' => 'required|string|max:255',
         'applied_at' => 'required|date',
+        'description' => 'nullable|string|max:1000',
+        'job_link' => 'nullable|url|max:255',
         'status' => 'required|in:pending,accepted,rejected',
     ]);
 
@@ -78,6 +80,8 @@ public function edit(JobApplication $jobApplication)
         'company' => 'required|string|max:255',
         'position' => 'required|string|max:255',
         'applied_at' => 'required|date',
+        'description' => 'nullable|string|max:1000',
+        'job_link' => 'nullable|url|max:255',
         'status' => 'required|in:pending,accepted,rejected',
     ]);
 

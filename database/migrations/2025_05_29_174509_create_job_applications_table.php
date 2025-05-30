@@ -17,6 +17,8 @@ return new class extends Migration
                 $table->string('company');
                 $table->string('position');
                 $table->date('applied_at');
+                $table->text('description')->nullable();
+                $table->string('job_link')->nullable();
              $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
             $table->timestamps();
         });
