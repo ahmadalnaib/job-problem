@@ -37,10 +37,10 @@ class InterviewReminderMail extends Mailable
     public function content(): Content
     {
         return new Content(
-          view: 'emails.interview-reminder',
-        with: [
-            'interview' => $this->interview,
-        ],
+            markdown: 'emails.interview-reminder',
+            with: [
+                'interview' => $this->interview,
+            ],
         );
     }
 

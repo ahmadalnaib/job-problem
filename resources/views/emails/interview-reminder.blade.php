@@ -1,14 +1,17 @@
-<h1>Interview Reminder</h1>
+<x-mail::message>
+# Interview Reminder
 
-<p>Hello,</p>
-<p>This is a reminder for your upcoming interview:</p>
+This is a reminder for your upcoming interview.
 
-<ul>
-    <li><strong>Position:</strong> {{ $interview->jobApplication->position }}</li>
-    <li><strong>Company:</strong> {{ $interview->jobApplication->company }}</li>
-<li><strong>Scheduled at:</strong> {{ \Carbon\Carbon::parse($interview->scheduled_at)->format('Y-m-d H:i') }}</li>
+- **Position:** {{ $interview->jobApplication->position }}
+- **Company:** {{ $interview->jobApplication->company }}
+- **Scheduled At:** {{ \Carbon\Carbon::parse($interview->scheduled_at)->format('Y-m-d H:i') }}
+- **Location:** {{ $interview->location }}
 
-    <li><strong>Location:</strong> {{ $interview->location }}</li>
-</ul>
+<x-mail::button :url="url('/')">
+Go to Dashboard
+</x-mail::button>
 
-<p>We wish you the best of luck!</p>
+Thanks,<br>
+{{ config('app.name') }}
+</x-mail::message>
