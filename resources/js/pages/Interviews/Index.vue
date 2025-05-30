@@ -87,28 +87,36 @@
 </template>
 
 <script setup>
+
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Link, router } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 
-defineProps({
+const props = defineProps({
   interviews: Array,
 });
 
 const selected = ref(null);
+
+watchEffect(() => {
+  if (!selected.value && props.interviews.length > 0) {
+    selected.value = props.interviews[0];
+  }
+});
 
 const selectInterview = (interview) => {
   selected.value = interview;
 };
 
 const formatDate = (dateStr) => {
-  const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }
-  return new Date(dateStr).toLocaleDateString(undefined, options)
-}
+  const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+  return new Date(dateStr).toLocaleDateString(undefined, options);
+};
 
 const deleteInterview = (id) => {
   if (confirm('Are you sure you want to delete this interview?')) {
-    router.delete(`/interviews/${id}`)
+    router.delete(`/interviews/${id}`);
   }
-}
+};
 </script>
+

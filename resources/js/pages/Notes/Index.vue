@@ -1,27 +1,34 @@
 <script setup>
-import { Link, router } from '@inertiajs/vue3'
-import AppLayout from '@/layouts/AppLayout.vue'
-import { ref } from 'vue'
+import { Link, router } from '@inertiajs/vue3';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { ref, watchEffect } from 'vue';
 
-defineProps({
+const props = defineProps({
   notes: Array
-})
+});
 
-const selected = ref(null)
+const selected = ref(null);
+
+watchEffect(() => {
+  if (!selected.value && props.notes.length > 0) {
+    selected.value = props.notes[0];
+  }
+});
 
 const selectNote = (note) => {
-  selected.value = note
-}
+  selected.value = note;
+};
 
 const deleteNote = (id) => {
   if (confirm('Delete this note?')) {
-    router.delete(`/notes/${id}`)
+    router.delete(`/notes/${id}`);
     if (selected.value && selected.value.id === id) {
-      selected.value = null
+      selected.value = null;
     }
   }
-}
+};
 </script>
+
 
 <template>
   <AppLayout>

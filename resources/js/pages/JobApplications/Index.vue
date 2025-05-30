@@ -122,15 +122,22 @@
 </template>
 
 <script setup>
+import { ref, watchEffect } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Link, router } from '@inertiajs/vue3';
-import { ref } from 'vue';
 
-defineProps({
+const props = defineProps({
     jobApplications: Array,
 });
 
 const selected = ref(null);
+
+// Automatically select the first application when available
+watchEffect(() => {
+    if (!selected.value && props.jobApplications.length > 0) {
+        selected.value = props.jobApplications[0];
+    }
+});
 
 const selectApplication = (application) => {
     selected.value = application;
@@ -149,4 +156,5 @@ const deleteApplication = (id) => {
         }
     }
 };
+
 </script>
