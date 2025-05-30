@@ -67,9 +67,13 @@ public function store(Request $request)
 // InterviewController.php
 public function show(Interview $interview)
 {
+    // $this->authorize('view', $interview); // optional auth check
+    $interview->load('jobApplication.user');
 
+    return Inertia::render('Interviews/Show', [
+        'interview' => $interview,
+    ]);
 }
-
 
     /**
      * Show the form for editing the specified resource.

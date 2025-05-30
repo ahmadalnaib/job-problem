@@ -48,8 +48,29 @@
                 📍 {{ selected.location }}
               </span>
             </div>
-            <div class="mb-4 text-gray-700 dark:text-gray-200">
-              <strong>Location:</strong> {{ selected.location }}
+           
+            <!-- Job Application Details -->
+            <div class="mb-6 mt-4 rounded-lg border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-950 p-4">
+              <h3 class="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-100">Job Application</h3>
+              <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                <li>
+                  <span class="font-semibold">Company:</span>
+                  {{ selected.job_application.company }}
+                </li>
+                <li>
+                  <span class="font-semibold">Position:</span>
+                  {{ selected.job_application.position }}
+                </li>
+                <li>
+                  <span class="font-semibold">Status:</span>
+                  {{ selected.job_application.status }}
+                </li>
+                <li>
+                  <span class="font-semibold">Applied At:</span>
+                  {{ selected.job_application.applied_at }}
+                </li>
+                
+              </ul>
             </div>
           </div>
           <!-- Action buttons fixed at the bottom right -->
@@ -87,7 +108,6 @@
 </template>
 
 <script setup>
-
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Link, router } from '@inertiajs/vue3';
 import { ref, watchEffect } from 'vue';
@@ -119,4 +139,3 @@ const deleteInterview = (id) => {
   }
 };
 </script>
-
