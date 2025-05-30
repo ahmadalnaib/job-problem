@@ -61,12 +61,7 @@ class InterviewController extends Controller
 // InterviewController.php
 public function show(Interview $interview)
 {
-    // $this->authorize('view', $interview); // optional auth check
-    $interview->load('jobApplication.user');
 
-    return Inertia::render('Interviews/Show', [
-        'interview' => $interview,
-    ]);
 }
 
 

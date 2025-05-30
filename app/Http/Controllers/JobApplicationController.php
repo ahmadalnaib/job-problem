@@ -55,11 +55,7 @@ public function create()
      */
 public function show(JobApplication $jobApplication)
 {
-    $jobApplication->load('notes');
-
-    return Inertia::render('JobApplications/Show', [
-        'application' => $jobApplication,
-    ]);
+   
 }
 
 
