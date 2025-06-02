@@ -57,7 +57,7 @@ public function store(Request $request)
 
     // ⏰ Dispatch the reminder job 3 hours before
     SendInterviewReminder::dispatch($interview)
-        ->delay($interview->scheduled_at->subHours(3));
+        ->delay($interview->scheduled_at->subHours(1));
 
     return redirect()->route('interviews.index');
 }

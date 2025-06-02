@@ -29,6 +29,11 @@ const mainNavItems: NavItem[] = [
         href: '/notes',
         icon: BookOpen,
     },
+        {
+        title: 'AI',
+        href: '/notes',
+        icon: BookOpen,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
