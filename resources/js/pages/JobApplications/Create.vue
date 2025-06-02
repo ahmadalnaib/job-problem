@@ -40,15 +40,15 @@
         </div>
 
         <div class="mb-4">
-          <label class="block text-gray-700 font-medium mb-2" for="description">Description</label>
+          <label class="block text-gray-700 font-medium mb-2" for="note">Notes</label>
           <textarea
-            v-model="form.description"
-            id="description"
+            v-model="form.note"
+            id="note"
             class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter job description"
+            placeholder="notes"
             rows="3"
           ></textarea>
-          <p v-if="form.errors.description" class="text-red-600 text-sm mt-1">{{ form.errors.description }}</p>
+          <p v-if="form.errors.note" class="text-red-600 text-sm mt-1">{{ form.errors.note }}</p>
         </div>
 
         <div class="mb-4">
@@ -98,7 +98,7 @@ const form = useForm({
   company: '',
   position: '',
   applied_at: '',
-  description: '',
+  note: '',
   job_link: '',
   status: 'pending',
 })

@@ -37,16 +37,16 @@
                             </span>
                         </div>
                         <div class="text-xs text-gray-500">{{ application.company }}</div>
-                        <div class="text-xs text-gray-400 mt-1">{{ formatDate(application.applied_at) }}</div>
+                        <div class="mt-1 text-xs text-gray-400">{{ formatDate(application.applied_at) }}</div>
                     </li>
                 </ul>
             </div>
 
             <!-- Main: Application Details -->
-            <div class="flex-1 overflow-y-auto p-8 flex flex-col h-full relative">
-                <div v-if="selected" class="flex flex-col h-full">
+            <div class="relative flex h-full flex-1 flex-col overflow-y-auto p-8">
+                <div v-if="selected" class="flex h-full flex-col">
                     <div>
-                        <div class="flex items-center justify-between mb-4">
+                        <div class="mb-4 flex items-center justify-between">
                             <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
                                 {{ selected.position }}
                                 <span class="font-normal text-gray-400">@</span>
@@ -65,33 +65,22 @@
                             </span>
                         </div>
                         <div class="mb-2 flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                            <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-800 px-3 py-1 font-semibold text-xs text-gray-700 dark:text-gray-300">
+                            <span
+                                class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-300"
+                            >
                                 📅 {{ formatDate(selected.applied_at) }}
                             </span>
-                            <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-800 px-3 py-1 font-semibold text-xs text-gray-700 dark:text-gray-300 ">
+                            <span
+                                class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-300"
+                            >
                                 🏢 {{ selected.company }}
                             </span>
                         </div>
-                     
+
                         <!-- Description -->
-                        <div class="mb-4 text-gray-700 dark:text-gray-200" v-if="selected.description">
-                            <strong>Description:</strong>
-                            <span class="block whitespace-pre-line">{{ selected.description }}</span>
-                        </div>
-                       
-                        <!-- Job Link as button -->
-                        <div v-if="selected.job_link" class="mb-4">
-                            <a
-                                :href="selected.job_link"
-                                target="_blank"
-                                rel="noopener"
-                                class="inline-flex items-center gap-1 rounded px-4 py-2 text-blue-600 font-xs shadow transition"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 010 5.656m1.415-1.415a6 6 0 10-8.486-8.486 6 6 0 008.486 8.486zm-1.415 1.415L21 21" />
-                                </svg>
-                                View Job Link
-                            </a>
+                        <div class="mb-4 text-gray-700 dark:text-gray-200" v-if="selected.note">
+                            <strong>Notes:</strong>
+                            <span class="block whitespace-pre-line">{{ selected.note }}</span>
                         </div>
                     </div>
                     <!-- Action buttons fixed at the bottom right -->
@@ -103,7 +92,12 @@
                         >
                             <!-- Heroicon: Pencil Square -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.862 3.487a2.25 2.25 0 113.182 3.182l-10.5 10.5a2.25 2.25 0 01-1.06.592l-4.5 1a.75.75 0 01-.91-.91l1-4.5a2.25 2.25 0 01.592-1.06l10.5-10.5z" />
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M16.862 3.487a2.25 2.25 0 113.182 3.182l-10.5 10.5a2.25 2.25 0 01-1.06.592l-4.5 1a.75.75 0 01-.91-.91l1-4.5a2.25 2.25 0 01.592-1.06l10.5-10.5z"
+                                />
                             </svg>
                             Edit
                         </Link>
@@ -114,21 +108,32 @@
                         >
                             <!-- Heroicon: Trash -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                             Delete
                         </button>
                     </div>
                     <!-- Note attached bottom left -->
-                    <div class="absolute left-8 bottom-8">
-                        <Link
-                            v-if="selected.notes && selected.notes.length > 0"
-                            :href="`/notes?job_application_id=${selected.id}`"
-                            class="inline-flex items-center gap-1 rounded-full bg-gray-200 px-3 py-1 text-xs font-semibold text-gray-800 transition hover:bg-gray-300 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
-                        >
-                            <span class="text-base">📝</span>
-                            Note attached
-                        </Link>
+                    <div class="absolute bottom-8 left-8">
+                        <!-- Job Link as button -->
+                        <div v-if="selected.job_link" class="">
+                            <a
+                                :href="selected.job_link"
+                                target="_blank"
+                                rel="noopener"
+                                class="font-xs inline-flex items-center gap-1 rounded border border-1 px-4 py-2 text-blue-600 transition"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M13.828 10.172a4 4 0 010 5.656m1.415-1.415a6 6 0 10-8.486-8.486 6 6 0 008.486 8.486zm-1.415 1.415L21 21"
+                                    />
+                                </svg>
+                                View Job Link
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div v-else class="flex h-full items-center justify-center text-gray-400">
@@ -140,9 +145,9 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Link, router } from '@inertiajs/vue3';
+import { ref, watchEffect } from 'vue';
 
 const props = defineProps({
     jobApplications: Array,

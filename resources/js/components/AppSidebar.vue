@@ -24,11 +24,7 @@ const mainNavItems: NavItem[] = [
         href: '/interviews',
         icon: Folder,
     },
-    {
-        title: 'Notes',
-        href: '/notes',
-        icon: BookOpen,
-    },
+
         {
         title: 'AI',
         href: '/notes',
