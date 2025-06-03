@@ -45,16 +45,33 @@
             <!-- Main: Application Details -->
             <div class="relative flex h-full flex-1 flex-col overflow-y-auto p-8">
                 <div v-if="selected" class="flex h-full flex-col">
+                    <!-- Modern Details Card -->
                     <div>
-                        <div class="mb-4 flex items-center justify-between">
-                            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                                {{ selected.position }}
-                                <span class="font-normal text-gray-400">@</span>
-                                {{ selected.company }}
-                            </h2>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-200 text-3xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 01-8 0M12 3v4m0 0a4 4 0 01-4 4H7a4 4 0 01-4-4V7a4 4 0 014-4h1a4 4 0 014 4z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                                    {{ selected.position }}
+                                    <span class="font-normal text-gray-400">@</span>
+                                    {{ selected.company }}
+                                </h2>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+                                        📅 {{ formatDate(selected.applied_at) }}
+                                    </span>
+                                    <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+                                        🏢 {{ selected.company }}
+                                    </span>
+                                </div>
+                            </div>
                             <span
+                                v-if="selected.status"
                                 :class="[
-                                    'rounded-full px-3 py-1 text-xs font-semibold tracking-wide uppercase',
+                                    'ml-auto px-3 py-1 rounded-full text-xs font-semibold uppercase',
                                     selected.status === 'pending' ? 'bg-yellow-100 text-yellow-700' : '',
                                     selected.status === 'accepted' ? 'bg-green-100 text-green-700' : '',
                                     selected.status === 'rejected' ? 'bg-red-100 text-red-700' : '',
@@ -64,23 +81,37 @@
                                 {{ selected.status }}
                             </span>
                         </div>
-                        <div class="mb-2 flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                            <span
-                                class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-300"
-                            >
-                                📅 {{ formatDate(selected.applied_at) }}
-                            </span>
-                            <span
-                                class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-300"
-                            >
-                                🏢 {{ selected.company }}
-                            </span>
-                        </div>
-
-                        <!-- Description -->
-                        <div class="mb-4 text-gray-700 dark:text-gray-200" v-if="selected.note">
-                            <strong>Notes:</strong>
-                            <span class="block whitespace-pre-line">{{ selected.note }}</span>
+                        <div class="rounded-2xl border border-gray-100 bg-gradient-to-br from-gray-50 to-white p-6 shadow dark:border-gray-800 dark:from-gray-950 dark:to-gray-900">
+                            <h3 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 01-8 0M12 3v4m0 0a4 4 0 01-4 4H7a4 4 0 01-4-4V7a4 4 0 014-4h1a4 4 0 014 4z" />
+                                </svg>
+                                Application Details
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm text-gray-700 dark:text-gray-300">
+                                <div>
+                                    <span class="font-semibold">Company:</span>
+                                    <span>{{ selected.company }}</span>
+                                </div>
+                                <div>
+                                    <span class="font-semibold">Position:</span>
+                                    <span>{{ selected.position }}</span>
+                                </div>
+                                <div>
+                                    <span class="font-semibold">Applied At:</span>
+                                    <span>{{ formatDate(selected.applied_at) }}</span>
+                                </div>
+                                <div v-if="selected.job_link">
+                                    <span class="font-semibold">Job Link:</span>
+                                    <a :href="selected.job_link" target="_blank" class="text-blue-600 underline hover:text-blue-800 break-all">
+                                        {{ selected.job_link }}
+                                    </a>
+                                </div>
+                                <div v-if="selected.note" class="md:col-span-2">
+                                    <span class="font-semibold">Notes:</span>
+                                    <span class="block whitespace-pre-line">{{ selected.note }}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- Action buttons fixed at the bottom right -->
@@ -112,28 +143,6 @@
                             </svg>
                             Delete
                         </button>
-                    </div>
-                    <!-- Note attached bottom left -->
-                    <div class="absolute bottom-8 left-8">
-                        <!-- Job Link as button -->
-                        <div v-if="selected.job_link" class="">
-                            <a
-                                :href="selected.job_link"
-                                target="_blank"
-                                rel="noopener"
-                                class="font-xs inline-flex items-center gap-1 rounded border border-1 px-4 py-2 text-blue-600 transition"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M13.828 10.172a4 4 0 010 5.656m1.415-1.415a6 6 0 10-8.486-8.486 6 6 0 008.486 8.486zm-1.415 1.415L21 21"
-                                    />
-                                </svg>
-                                View Job Link
-                            </a>
-                        </div>
                     </div>
                 </div>
                 <div v-else class="flex h-full items-center justify-center text-gray-400">
