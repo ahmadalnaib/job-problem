@@ -5,16 +5,20 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\JobApplication;
+use App\Http\Requests\StoreJobApplicationRequest;
+use App\Http\Requests\UpdateJobApplicationRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class JobApplicationController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
 public function index()
 {
- $jobApplications = JobApplication::with('user')
-        ->where('user_id', auth()->id())
+$jobApplications = JobApplication::where('user_id', auth()->id())
+        ->orderByDesc('applied_at')
         ->get();
 
     return Inertia::render('JobApplications/Index', [
@@ -33,18 +37,9 @@ public function create()
     /**
      * Store a newly created resource in storage.
      */
-   public function store(Request $request)
+   public function store(StoreJobApplicationRequest $request)
 {
-      $validatedData = $request->validate([
-        'company' => 'required|string|max:255',
-        'position' => 'required|string|max:255',
-        'applied_at' => 'required|date',
-        'note' => 'nullable|string|max:1000',
-        'job_link' => 'nullable|url|max:255',
-        'status' => 'required|in:pending,accepted,rejected',
-    ]);
-
-    // Add the authenticated user's ID to the validated data
+      $validatedData = $request->validated();
     $validatedData['user_id'] = auth()->id();
 
     JobApplication::create($validatedData);
@@ -66,6 +61,7 @@ public function show(JobApplication $jobApplication)
      */
 public function edit(JobApplication $jobApplication)
 {
+        $this->authorize('update', $jobApplication);
     return Inertia::render('JobApplications/Edit', [
         'jobApplication' => $jobApplication,
     ]);
@@ -74,19 +70,10 @@ public function edit(JobApplication $jobApplication)
     /**
      * Update the specified resource in storage.
      */
-   public function update(Request $request, JobApplication $jobApplication)
+   public function update(UpdateJobApplicationRequest  $request, JobApplication $jobApplication)
 {
-    $request->validate([
-        'company' => 'required|string|max:255',
-        'position' => 'required|string|max:255',
-        'applied_at' => 'required|date',
-        'note' => 'nullable|string|max:1000',
-        'job_link' => 'nullable|url|max:255',
-        'status' => 'required|in:pending,accepted,rejected',
-    ]);
-
-    $jobApplication->update($request->all());
-
+   $this->authorize('update', $jobApplication);
+    $jobApplication->update($request->validated());
     return redirect()->route('job-applications.index');
 }
 
@@ -95,6 +82,7 @@ public function edit(JobApplication $jobApplication)
      */
 public function destroy(JobApplication $jobApplication)
 {
+      $this->authorize('delete', $jobApplication);
     $jobApplication->delete();
     return redirect()->route('job-applications.index');
 }

@@ -10,9 +10,12 @@ use App\Models\JobApplication;
 use App\Jobs\SendInterviewReminder;
 use App\Http\Requests\StoreInterviewRequest;
 use App\Http\Requests\UpdateInterviewRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 
 class InterviewController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
