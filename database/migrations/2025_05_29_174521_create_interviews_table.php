@@ -15,6 +15,7 @@ return new class extends Migration
               $table->id();
               $table->foreignId('job_application_id')->constrained()->onDelete('cascade');
               $table->dateTime('scheduled_at');
+              $table->dateTime('remind_me');
               $table->string('location');
               $table->boolean('reminder_sent')->default(false);
               $table->timestamps();

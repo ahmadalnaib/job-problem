@@ -45,6 +45,7 @@ public function store(Request $request)
     $request->validate([
         'job_application_id' => 'required|exists:job_applications,id',
         'scheduled_at' => 'required|date',
+        'remind_me' => 'required|date',
         'location' => 'required|string|max:255',
     ]);
 
@@ -52,6 +53,7 @@ public function store(Request $request)
     $interview = Interview::create([
         'job_application_id' => $request->input('job_application_id'),
         'scheduled_at' => Carbon::parse($request->input('scheduled_at')),
+        'remind_me' => Carbon::parse($request->input('remind_me')),
         'location' => $request->input('location'),
     ]);
 
@@ -100,6 +102,7 @@ public function show(Interview $interview)
         $request->validate([
             'job_application_id' => 'required|exists:job_applications,id',
             'scheduled_at' => 'required|date',
+            'remind_me' => 'required|date',
             'location' => 'required|string|max:255',
         ]);
 

@@ -16,9 +16,8 @@
           </select>
           <p v-if="form.errors.job_application_id" class="text-red-600 text-sm mt-1">{{ form.errors.job_application_id }}</p>
         </div>
-
-        <div class="mb-4">
-          <label class="block text-gray-700 font-medium mb-2" for="scheduled_at">Scheduled At</label>
+         <div class="mb-4">
+          <label class="block text-gray-700 font-medium mb-2" for="scheduled_at">Interview date</label>
           <input
             v-model="form.scheduled_at"
             id="scheduled_at"
@@ -27,6 +26,18 @@
             class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <p v-if="form.errors.scheduled_at" class="text-red-600 text-sm mt-1">{{ form.errors.scheduled_at }}</p>
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 font-medium mb-2" for="remind_me">Remind me</label>
+          <input
+            v-model="form.remind_me"
+            id="remind_me"
+            type="datetime-local"
+            :min="minDateTime"
+            class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <p v-if="form.errors.remind_me" class="text-red-600 text-sm mt-1">{{ form.errors.remind_me }}</p>
         </div>
 
         <div class="mb-6">
@@ -67,6 +78,7 @@ const minDateTime = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.get
 
 const form = useForm({
   job_application_id: props.interview.job_application_id,
+  remind_me: props.interview.remind_me,
   scheduled_at: props.interview.scheduled_at,
   location: props.interview.location,
 })

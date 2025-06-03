@@ -27,7 +27,7 @@ defineProps({
           </h2>
           <div class="flex flex-wrap gap-3 items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
             <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-800 px-3 py-1 font-semibold text-xs text-gray-700 dark:text-gray-300">
-              📅 {{ new Date(interview.scheduled_at).toLocaleString() }}
+              📅 {{ new Date(interview.remind_me).toLocaleString() }}
             </span>
             <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-800 px-3 py-1 font-semibold text-xs text-gray-700 dark:text-gray-300">
               📍 {{ interview.location }}
@@ -53,7 +53,7 @@ defineProps({
           </li>
           <li>
             <span class="font-semibold">Scheduled At:</span>
-            {{ new Date(interview.scheduled_at).toLocaleString() }}
+            {{ new Date(interview.remind_me).toLocaleString() }}
           </li>
         </ul>
       </div>
