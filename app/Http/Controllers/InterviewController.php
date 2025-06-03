@@ -66,7 +66,7 @@ public function store(StoreInterviewRequest $request)
 // InterviewController.php
 public function show(Interview $interview)
 {
-    // $this->authorize('view', $interview); // optional auth check
+     $this->authorize('view', $interview); // optional auth check
     $interview->load('jobApplication.user');
 
     return Inertia::render('Interviews/Show', [
@@ -79,7 +79,7 @@ public function show(Interview $interview)
      */
   public function edit(Interview $interview)
     {
-        // $this->authorize('update', $interview);
+         $this->authorize('update', $interview);
 
         $jobApplications = JobApplication::where('user_id', auth()->id())->get();
 
@@ -94,7 +94,7 @@ public function show(Interview $interview)
      */
 public function update(UpdateInterviewRequest $request, Interview $interview)
 {
-    // $this->authorize('update', $interview);
+     $this->authorize('update', $interview);
 
     $interview->update($request->all());
 
@@ -106,7 +106,7 @@ public function update(UpdateInterviewRequest $request, Interview $interview)
      */
     public function destroy(Interview $interview)
     {
-        // $this->authorize('delete', $interview);
+         $this->authorize('delete', $interview);
 
         $interview->delete();
 
