@@ -14,14 +14,11 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
 
-// Route::get('dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
- Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-
-
-Route::resource('job-applications', JobApplicationController::class);
-Route::resource('interviews', InterviewController::class);
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('job-applications', JobApplicationController::class);
+    Route::resource('interviews', InterviewController::class);
+});
 
 // Route::get('/test-email', function () {
 //     $interview = Interview::latest()->first(); // Replace with appropriate logic
