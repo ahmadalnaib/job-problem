@@ -136,7 +136,7 @@
                     <!-- Action buttons -->
                     <div class="mt-auto flex justify-end gap-2 pt-6">
                         <Link
-                            :href="`/interviews/${selected.id}/edit`"
+                            :href="`/interviews/${selected.slug}/edit`"
                             class="flex items-center gap-1 rounded-full bg-purple-50 px-4 py-2 font-medium text-purple-900 transition hover:bg-purple-100 dark:bg-purple-900 dark:text-purple-200 dark:hover:bg-purple-800"
                             title="Edit"
                         >
@@ -152,7 +152,7 @@
                             Edit
                         </Link>
                         <button
-                            @click="deleteInterview(selected.id)"
+                            @click="deleteInterview(selected.slug)"
                             class="flex items-center gap-1 rounded-full bg-purple-50 px-4 py-2 font-medium text-red-600 transition hover:bg-purple-100 dark:bg-purple-900 dark:text-red-400 dark:hover:bg-purple-800"
                             title="Delete"
                         >

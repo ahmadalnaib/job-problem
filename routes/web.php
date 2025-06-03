@@ -16,9 +16,12 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('job-applications', JobApplicationController::class);
-    Route::resource('interviews', InterviewController::class);
-});
+  Route::resource('job-applications', JobApplicationController::class)->parameters([
+    'job-applications' => 'jobApplication:slug'
+]);
+Route::resource('interviews', InterviewController::class)->parameters([
+    'interviews' => 'interview:slug'
+]);});
 
 // Route::get('/test-email', function () {
 //     $interview = Interview::latest()->first(); // Replace with appropriate logic

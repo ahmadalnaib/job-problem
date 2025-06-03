@@ -84,6 +84,6 @@ const form = useForm({
 })
 
 const submit = () => {
-  form.put(`/interviews/${props.interview.id}`)
+  form.put(`/interviews/${props.interview.slug}`)
 }
 </script>

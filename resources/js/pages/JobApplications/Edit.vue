@@ -108,6 +108,6 @@ const form = useForm({
 })
 
 const submit = () => {
-  form.put(`/job-applications/${props.jobApplication.id}`)
+  form.put(`/job-applications/${props.jobApplication.slug}`)
 }
 </script>

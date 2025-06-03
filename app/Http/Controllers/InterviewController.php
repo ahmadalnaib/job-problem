@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
@@ -12,32 +13,25 @@ use App\Http\Requests\StoreInterviewRequest;
 use App\Http\Requests\UpdateInterviewRequest;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-
 class InterviewController extends Controller
 {
     use AuthorizesRequests;
-    /**
-     * Display a listing of the resource.
-     */
- 
-public function index()
-{
-    $interviews = Interview::with('jobApplication')
-        ->whereHas('jobApplication', function ($query) {
-            $query->where('user_id', auth()->id());
-        })
-        ->orderBy('scheduled_at', 'asc') // Soonest interviews first
-        ->get();
 
-    return Inertia::render('Interviews/Index', [
-        'interviews' => $interviews,
-    ]);
-}
+    public function index()
+    {
+        $interviews = Interview::with('jobApplication')
+            ->whereHas('jobApplication', function ($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->orderBy('scheduled_at', 'asc')
+            ->get();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-  public function create()
+        return Inertia::render('Interviews/Index', [
+            'interviews' => $interviews,
+        ]);
+    }
+
+    public function create()
     {
         $jobApplications = JobApplication::where('user_id', auth()->id())->get();
 
@@ -46,43 +40,35 @@ public function index()
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-public function store(StoreInterviewRequest $request)
-{
-    $interview = Interview::create([
-        'job_application_id' => $request->input('job_application_id'),
-        'scheduled_at' => Carbon::parse($request->input('scheduled_at')),
-        'remind_me' => Carbon::parse($request->input('remind_me')),
-        'location' => $request->input('location'),
-    ]);
-
-    SendInterviewReminder::dispatch($interview)
-        ->delay($interview->scheduled_at->subHours(1));
-
-    return redirect()->route('interviews.index');
-}
-    /**
-     * Display the specified resource.
-     */
-// InterviewController.php
-public function show(Interview $interview)
-{
-     $this->authorize('view', $interview); // optional auth check
-    $interview->load('jobApplication.user');
-
-    return Inertia::render('Interviews/Show', [
-        'interview' => $interview,
-    ]);
-}
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-  public function edit(Interview $interview)
+    public function store(StoreInterviewRequest $request)
     {
-         $this->authorize('update', $interview);
+        $interview = Interview::create([
+            'job_application_id' => $request->input('job_application_id'),
+            'scheduled_at' => Carbon::parse($request->input('scheduled_at')),
+            'remind_me' => Carbon::parse($request->input('remind_me')),
+            'location' => $request->input('location'),
+        ]);
+
+        SendInterviewReminder::dispatch($interview)
+            ->delay($interview->scheduled_at->subHours(1));
+
+        return redirect()->route('interviews.index');
+    }
+
+    public function show(Interview $interview)
+    {
+        $interview->load('jobApplication.user');
+        $this->authorize('view', $interview);
+
+        return Inertia::render('Interviews/Show', [
+            'interview' => $interview,
+        ]);
+    }
+
+    public function edit(Interview $interview)
+    {
+        $interview->load('jobApplication');
+        $this->authorize('update', $interview);
 
         $jobApplications = JobApplication::where('user_id', auth()->id())->get();
 
@@ -92,24 +78,20 @@ public function show(Interview $interview)
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-public function update(UpdateInterviewRequest $request, Interview $interview)
-{
-     $this->authorize('update', $interview);
+    public function update(UpdateInterviewRequest $request, Interview $interview)
+    {
+        $interview->load('jobApplication');
+        $this->authorize('update', $interview);
 
-    $interview->update($request->all());
+        $interview->update($request->all());
 
-    return redirect()->route('interviews.index');
-}
+        return redirect()->route('interviews.index');
+    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Interview $interview)
     {
-         $this->authorize('delete', $interview);
+        $interview->load('jobApplication');
+        $this->authorize('delete', $interview);
 
         $interview->delete();
 

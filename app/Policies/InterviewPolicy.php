@@ -35,8 +35,8 @@ class InterviewPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Interview $interview)
-    {
+    public function update(User $user, Interview $interview):bool
+{
   return $interview->jobApplication->user_id === $user->id;
 }
     
@@ -46,7 +46,7 @@ class InterviewPolicy
      */
     public function delete(User $user, Interview $interview)
     {
-          return $interview->jobApplication->user_id === $user->id; return false;
+          return $interview->jobApplication->user_id === $user->id; 
     }
 
     /**

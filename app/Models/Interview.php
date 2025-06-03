@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use App\Models\JobApplication;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,4 +14,15 @@ protected $guarded = [];
 {
     return $this->belongsTo(JobApplication::class);
 }
+
+ protected static function booted()
+    {
+        static::creating(function ($interview) {
+            $interview->slug = Str::slug(
+                $interview->location  . '-' . uniqid()
+            );
+        });
+    }
+
+    
 }

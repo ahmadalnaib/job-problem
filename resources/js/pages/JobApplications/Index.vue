@@ -129,7 +129,7 @@
                     <!-- Action buttons fixed at the bottom right -->
                     <div class="mt-auto flex justify-end gap-2 pt-6">
                         <Link
-                            :href="`/job-applications/${selected.id}/edit`"
+                            :href="`/job-applications/${selected.slug}/edit`"
                             class="flex items-center gap-1 rounded-full bg-blue-50 px-4 py-2 font-medium text-blue-900 transition hover:bg-blue-100 dark:bg-blue-900 dark:text-blue-200 dark:hover:bg-blue-800"
                             title="Edit"
                         >
@@ -145,7 +145,7 @@
                             Edit
                         </Link>
                         <button
-                            @click="deleteApplication(selected.id)"
+                            @click="deleteApplication(selected.slug)"
                             class="flex items-center gap-1 rounded-full bg-blue-50 px-4 py-2 font-medium text-red-600 transition hover:bg-blue-100 dark:bg-blue-900 dark:text-red-400 dark:hover:bg-blue-800"
                             title="Delete"
                         >
