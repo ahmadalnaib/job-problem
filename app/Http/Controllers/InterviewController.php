@@ -8,22 +8,28 @@ use App\Models\Interview;
 use Illuminate\Http\Request;
 use App\Models\JobApplication;
 use App\Jobs\SendInterviewReminder;
+use App\Http\Requests\StoreInterviewRequest;
+use App\Http\Requests\UpdateInterviewRequest;
 
 class InterviewController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
- public function index()
-    {
-        $interviews = Interview::with('jobApplication')->whereHas('jobApplication', function ($query) {
+ 
+public function index()
+{
+    $interviews = Interview::with('jobApplication')
+        ->whereHas('jobApplication', function ($query) {
             $query->where('user_id', auth()->id());
-        })->get();
+        })
+        ->orderBy('scheduled_at', 'asc') // Soonest interviews first
+        ->get();
 
-        return Inertia::render('Interviews/Index', [
-            'interviews' => $interviews,
-        ]);
-    }
+    return Inertia::render('Interviews/Index', [
+        'interviews' => $interviews,
+    ]);
+}
 
     /**
      * Show the form for creating a new resource.
@@ -40,16 +46,8 @@ class InterviewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-public function store(Request $request)
+public function store(StoreInterviewRequest $request)
 {
-    $request->validate([
-        'job_application_id' => 'required|exists:job_applications,id',
-        'scheduled_at' => 'required|date',
-        'remind_me' => 'required|date',
-        'location' => 'required|string|max:255',
-    ]);
-
-    // Save the interview
     $interview = Interview::create([
         'job_application_id' => $request->input('job_application_id'),
         'scheduled_at' => Carbon::parse($request->input('scheduled_at')),
@@ -57,7 +55,6 @@ public function store(Request $request)
         'location' => $request->input('location'),
     ]);
 
-    // ⏰ Dispatch the reminder job 3 hours before
     SendInterviewReminder::dispatch($interview)
         ->delay($interview->scheduled_at->subHours(1));
 
@@ -95,21 +92,14 @@ public function show(Interview $interview)
     /**
      * Update the specified resource in storage.
      */
-  public function update(Request $request, Interview $interview)
-    {
-        // $this->authorize('update', $interview);
+public function update(UpdateInterviewRequest $request, Interview $interview)
+{
+    // $this->authorize('update', $interview);
 
-        $request->validate([
-            'job_application_id' => 'required|exists:job_applications,id',
-            'scheduled_at' => 'required|date',
-            'remind_me' => 'required|date',
-            'location' => 'required|string|max:255',
-        ]);
+    $interview->update($request->all());
 
-        $interview->update($request->all());
-
-        return redirect()->route('interviews.index');
-    }
+    return redirect()->route('interviews.index');
+}
 
     /**
      * Remove the specified resource from storage.
