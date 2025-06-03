@@ -42,53 +42,65 @@
                 </ul>
             </div>
 
-            <!-- Main: Application Details -->
+            <!-- Main: Application Details (Timeline Style) -->
             <div class="relative flex h-full flex-1 flex-col overflow-y-auto p-8">
                 <div v-if="selected" class="flex h-full flex-col">
-                    <!-- Modern Details Card -->
-                    <div>
-                        <div class="flex items-center gap-4 mb-6">
-                            <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-200 text-3xl">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 01-8 0M12 3v4m0 0a4 4 0 01-4 4H7a4 4 0 01-4-4V7a4 4 0 014-4h1a4 4 0 014 4z" />
-                                </svg>
+                    <div
+                        class="relative mb-8 flex flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 to-white md:flex-row dark:border-blue-900 dark:from-blue-950 dark:to-gray-900"
+                    >
+                        <!-- Timeline & Date -->
+                        <div
+                            class="flex flex-col items-center justify-center border-r border-blue-100 bg-white px-8 py-10 md:w-1/3 dark:border-blue-800 dark:bg-gray-900"
+                        >
+                            <div class="flex flex-col items-center">
+                                <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-600 text-white shadow">
+                                    <!-- Briefcase Icon -->
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="size-6"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75"
+                                        />
+                                    </svg>
+
+                                  
+                                </div>
+                                <div class="text-center">
+                                    <div class="mb-1 text-xs font-semibold tracking-wider text-blue-700 uppercase dark:text-blue-200">Applied</div>
+                                    <div class="text-lg font-bold text-gray-900 dark:text-gray-100">{{ formatDate(selected.applied_at) }}</div>
+                                    <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">{{ selected.company }}</div>
+                                </div>
                             </div>
-                            <div>
-                                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                        </div>
+                        <!-- Details -->
+                        <div class="flex flex-1 flex-col p-8">
+                            <div class="mb-4 flex items-center gap-4">
+                                <h2 class="text-2xl font-extrabold text-gray-900 dark:text-gray-100">
                                     {{ selected.position }}
                                     <span class="font-normal text-gray-400">@</span>
                                     {{ selected.company }}
                                 </h2>
-                                <div class="flex items-center gap-2 mt-1">
-                                    <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-300">
-                                        📅 {{ formatDate(selected.applied_at) }}
-                                    </span>
-                                    <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-300">
-                                        🏢 {{ selected.company }}
-                                    </span>
-                                </div>
+                                <span
+                                    v-if="selected.status"
+                                    :class="[
+                                        'ml-auto rounded-full px-3 py-1 text-xs font-semibold uppercase',
+                                        selected.status === 'pending' ? 'bg-yellow-100 text-yellow-700' : '',
+                                        selected.status === 'accepted' ? 'bg-green-100 text-green-700' : '',
+                                        selected.status === 'rejected' ? 'bg-red-100 text-red-700' : '',
+                                        !['pending', 'accepted', 'rejected'].includes(selected.status) ? 'bg-gray-100 text-gray-700' : '',
+                                    ]"
+                                >
+                                    {{ selected.status }}
+                                </span>
                             </div>
-                            <span
-                                v-if="selected.status"
-                                :class="[
-                                    'ml-auto px-3 py-1 rounded-full text-xs font-semibold uppercase',
-                                    selected.status === 'pending' ? 'bg-yellow-100 text-yellow-700' : '',
-                                    selected.status === 'accepted' ? 'bg-green-100 text-green-700' : '',
-                                    selected.status === 'rejected' ? 'bg-red-100 text-red-700' : '',
-                                    !['pending', 'accepted', 'rejected'].includes(selected.status) ? 'bg-gray-100 text-gray-700' : '',
-                                ]"
-                            >
-                                {{ selected.status }}
-                            </span>
-                        </div>
-                        <div class="rounded-2xl border border-gray-100 bg-gradient-to-br from-gray-50 to-white p-6 shadow dark:border-gray-800 dark:from-gray-950 dark:to-gray-900">
-                            <h3 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 01-8 0M12 3v4m0 0a4 4 0 01-4 4H7a4 4 0 01-4-4V7a4 4 0 014-4h1a4 4 0 014 4z" />
-                                </svg>
-                                Application Details
-                            </h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm text-gray-700 dark:text-gray-300">
+                            <div class="mb-4 grid grid-cols-1 gap-x-8 gap-y-2 text-sm text-gray-700 md:grid-cols-2 dark:text-gray-300">
                                 <div>
                                     <span class="font-semibold">Company:</span>
                                     <span>{{ selected.company }}</span>
@@ -103,7 +115,7 @@
                                 </div>
                                 <div v-if="selected.job_link">
                                     <span class="font-semibold">Job Link:</span>
-                                    <a :href="selected.job_link" target="_blank" class="text-blue-600 underline hover:text-blue-800 break-all">
+                                    <a :href="selected.job_link" target="_blank" class="break-all text-blue-600 underline hover:text-blue-800">
                                         {{ selected.job_link }}
                                     </a>
                                 </div>
@@ -118,7 +130,7 @@
                     <div class="mt-auto flex justify-end gap-2 pt-6">
                         <Link
                             :href="`/job-applications/${selected.id}/edit`"
-                            class="flex items-center gap-1 rounded-full bg-gray-100 px-4 py-2 font-medium text-gray-900 transition hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+                            class="flex items-center gap-1 rounded-full bg-blue-50 px-4 py-2 font-medium text-blue-900 transition hover:bg-blue-100 dark:bg-blue-900 dark:text-blue-200 dark:hover:bg-blue-800"
                             title="Edit"
                         >
                             <!-- Heroicon: Pencil Square -->
@@ -134,7 +146,7 @@
                         </Link>
                         <button
                             @click="deleteApplication(selected.id)"
-                            class="flex items-center gap-1 rounded-full bg-gray-100 px-4 py-2 font-medium text-red-600 transition hover:bg-gray-200 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+                            class="flex items-center gap-1 rounded-full bg-blue-50 px-4 py-2 font-medium text-red-600 transition hover:bg-blue-100 dark:bg-blue-900 dark:text-red-400 dark:hover:bg-blue-800"
                             title="Delete"
                         >
                             <!-- Heroicon: Trash -->
