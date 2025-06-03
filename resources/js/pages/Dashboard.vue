@@ -18,6 +18,7 @@ interface JobApplication {
 
 interface Interview {
     id: number;
+    slug: string;
     scheduled_at: string;
     location: string;
     job_application?: JobApplication;
@@ -107,7 +108,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                         <Link
                             v-for="interview in props.nextInterviews"
                             :key="interview.id"
-                            :href="`/interviews/${interview.id}`"
+                            :href="`/interviews/${interview.slug}`"
                             class="group w-full rounded-lg border border-gray-200 bg-gray-50 p-4 transition hover:border-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-blue-400"
                         >
                             <div class="mb-1 flex items-center justify-between">
