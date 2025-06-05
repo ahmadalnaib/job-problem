@@ -26,7 +26,7 @@ class StoreJobApplicationRequest extends FormRequest
             'position' => 'required|string|max:255',
             'applied_at' => 'required|date',
             'note' => 'nullable|string|max:1000',
-            'job_link' => 'nullable|url|max:255',
+            'job_link' => 'nullable|max:255',
             'status' => 'required|in:pending,accepted,rejected',
         ];
     }

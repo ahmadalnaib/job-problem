@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,5 +23,11 @@ class AppServiceProvider extends ServiceProvider
     {
         //
          JsonResource::withoutWrapping();
+
+        //  remove this beforu deploying to production
+        if ($this->app->environment('local')) {
+            URL::forceScheme('http');
+        }
+   
     }
 }

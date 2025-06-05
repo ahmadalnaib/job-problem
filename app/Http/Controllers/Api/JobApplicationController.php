@@ -14,16 +14,13 @@ class JobApplicationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        // $jobApplications = JobApplication::where('user_id', auth()->id())
-        // ->orderByDesc('applied_at')
-        // ->get();
-        // return response()->json($jobApplications);
-        // $jobApplications=JobApplication::all();
-        // return response()->json($jobApplications);
-          return JobApplicationResource::collection(JobApplication::all());
+            $jobApplications = JobApplication::where('user_id', $request->user()->id)
+        ->orderByDesc('applied_at')
+        ->get();
+
+    return JobApplicationResource::collection($jobApplications);
     }
 
     /**
@@ -32,7 +29,8 @@ class JobApplicationController extends Controller
 public function store(StoreJobApplicationRequest $request)
 {
     $data = $request->validated();
-    $data['user_id'] =1; // or $request->user()->id
+    // $data['user_id'] =1;
+       $data['user_id'] = $request->user()->id; 
 
     $jobApplication = JobApplication::create($data);
 
@@ -42,30 +40,42 @@ public function store(StoreJobApplicationRequest $request)
     /**
      * Display the specified resource.
      */
-    public function show(JobApplication $jobApplication)
-    {
-        //
-        return new JobApplicationResource($jobApplication);
-        // return response()->json($jobApplication);
-    }
+ public function show($id, Request $request)
+{
+    $jobApplication = JobApplication::where('id', $id)
+        ->where('user_id', $request->user()->id)
+        ->firstOrFail();
+
+    return new JobApplicationResource($jobApplication);
+}
+
 
     /**
      * Update the specified resource in storage.
      */
-public function update(UpdateJobApplicationRequest $request, JobApplication $jobApplication)
-    {
-        $jobApplication->update($request->validated());
- 
-        return new JobApplicationResource($jobApplication);
-    }
+public function update(UpdateJobApplicationRequest $request, $id)
+{
+    $jobApplication = JobApplication::where('id', $id)
+        ->where('user_id', auth()->id())
+        ->firstOrFail();
+
+    $jobApplication->update($request->validated());
+
+    return new JobApplicationResource($jobApplication);
+}
 
     /**
      * Remove the specified resource from storage.
      */
-     public function destroy(JobApplication $jobApplication)
-    {
-        $jobApplication->delete();
- 
-        return response()->noContent();
-    }
+public function destroy($id, Request $request)
+{
+    $jobApplication = JobApplication::where('id', $id)
+        ->where('user_id', $request->user()->id)
+        ->firstOrFail();
+
+    $jobApplication->delete();
+
+    // Return a JSON response instead of noContent()
+    return response()->json(['message' => 'Deleted successfully']);
+}
 }

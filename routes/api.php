@@ -10,8 +10,8 @@ use App\Http\Controllers\Api\JobApplicationController;
 
 // ...
  
-Route::apiResource('job-applications', JobApplicationController::class);
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::apiResource('jobapplications', JobApplicationController::class);
 });
 
 

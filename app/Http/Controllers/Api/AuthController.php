@@ -18,7 +18,7 @@ class AuthController extends Controller
         'name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255|unique:users',
         'password' => ['required', 'confirmed', Password::defaults()],
-        'device_name' => 'required',
+      
     ]);
  
     $user = User::create([
@@ -27,7 +27,7 @@ class AuthController extends Controller
         'password' => Hash::make($request->password),
     ]);
  
-    return $user->createToken($request->device_name)->plainTextToken;
+ return $user->createToken('api')->plainTextToken;
 }
 
 public function login(Request $request): string
@@ -35,7 +35,7 @@ public function login(Request $request): string
     $request->validate([
         'email' => 'required|email',
         'password' => 'required',
-        'device_name' => 'required',
+        
     ]);
  
     $user = User::where('email', $request->email)->first();
@@ -46,7 +46,7 @@ public function login(Request $request): string
         ]);
     }
  
-    return $user->createToken($request->device_name)->plainTextToken;
+        return $user->createToken('api')->plainTextToken;
 }
 
 public function logout(Request $request)
