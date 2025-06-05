@@ -25,9 +25,9 @@ class AppServiceProvider extends ServiceProvider
          JsonResource::withoutWrapping();
 
         //  remove this beforu deploying to production
-        if ($this->app->environment('local')) {
-            URL::forceScheme('http');
-        }
+  
+            URL::forceScheme('https');
+        
    
     }
 }

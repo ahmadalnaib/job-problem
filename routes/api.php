@@ -5,6 +5,7 @@ use App\Models\JobApplication;
 use Illuminate\Contracts\Queue\Job;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\InterviewController;
 use App\Http\Controllers\Api\JobApplicationController;
 
 
@@ -12,6 +13,7 @@ use App\Http\Controllers\Api\JobApplicationController;
  
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('jobapplications', JobApplicationController::class);
+    Route::apiResource('interview', InterviewController::class);
 });
 
 
