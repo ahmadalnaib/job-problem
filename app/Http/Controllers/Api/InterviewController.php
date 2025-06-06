@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Interview;
 use Illuminate\Http\Request;
+use App\Jobs\SendInterviewReminder;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\InterviewResource;
 use App\Http\Requests\StoreInterviewRequest;
@@ -32,6 +33,8 @@ class InterviewController extends Controller
     {
         $data = $request->validated();
         $interview = Interview::create($data);
+          SendInterviewReminder::dispatch($interview)
+    ->delay($interview->remind_me->diffInSeconds(now()) > 0 ? $interview->remind_me->diffInSeconds(now()) : 0);
 
         return new InterviewResource($interview);
     }
@@ -75,6 +78,6 @@ class InterviewController extends Controller
 
         $interview->delete();
 
-        return response()->noContent();
+      return response()->json(['message' => 'Deleted successfully']);
     }
 }

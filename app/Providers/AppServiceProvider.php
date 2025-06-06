@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
 
         //  remove this beforu deploying to production
   
-            URL::forceScheme('https');
+            // URL::forceScheme('https');
         
    
     }

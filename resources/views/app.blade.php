@@ -30,10 +30,13 @@
             }
         </style>
 
-        <title inertia>{{ config('app.name', 'Laravel') }}</title>
+        <title inertia>{{ config('app.name', 'HumanHup') }}</title>
+
+<meta name="description" content="HumanHup is a web application to efficiently manage your job applications and interviews in one place. Track every application, schedule interviews, and never miss an opportunity." />
+<meta name="keywords" content="job application, interview management, job tracker, HumanHup, job search, interview scheduler, career management" />
 
         <link rel="icon" href="/favicon.ico" sizes="any">
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+        <link rel="icon" href="/favicon.png" type="image/svg+xml">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
         <link rel="preconnect" href="https://fonts.bunny.net">
