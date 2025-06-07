@@ -44,13 +44,15 @@ class InterviewController extends Controller
     {
         $interview = Interview::create([
             'job_application_id' => $request->input('job_application_id'),
-          'scheduled_at' => Carbon::parse($request->input('scheduled_at'))->utc(),
-           'remind_me' => Carbon::parse($request->input('remind_me'))->utc(),
+            'scheduled_at'=>$request->input('scheduled_at'),
+            'remind_me' => $request->input('remind_me'),
+        //   'scheduled_at' => Carbon::parse($request->input('scheduled_at'))->utc(),
+        //    'remind_me' => Carbon::parse($request->input('remind_me'))->utc(),
             'location' => $request->input('location'),
         ]);
 
-           SendInterviewReminder::dispatch($interview)
-    ->delay($interview->remind_me->diffInSeconds(now()) > 0 ? $interview->remind_me->diffInSeconds(now()) : 0);
+    //        SendInterviewReminder::dispatch($interview)
+    // ->delay($interview->remind_me->diffInSeconds(now()) > 0 ? $interview->remind_me->diffInSeconds(now()) : 0);
 
 // SendInterviewReminder::dispatch($interview)
 //     ->delay($interview->remind_me);
