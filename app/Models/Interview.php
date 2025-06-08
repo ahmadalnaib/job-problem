@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 class Interview extends Model
 {
     
-//     protected $casts = [
-//     'scheduled_at' => 'datetime',
-//     'remind_me' => 'datetime',
-// ];
+protected $casts = [
+    'scheduled_at' => 'datetime:Y-m-d H:i:s',
+    'remind_me' => 'datetime:Y-m-d H:i:s',
+    'reminder_sent' => 'boolean',
+];
+
 protected $guarded = [];
     public function jobApplication()
 {

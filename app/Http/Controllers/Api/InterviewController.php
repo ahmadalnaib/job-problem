@@ -33,8 +33,7 @@ class InterviewController extends Controller
     {
         $data = $request->validated();
         $interview = Interview::create($data);
-          SendInterviewReminder::dispatch($interview)
-    ->delay($interview->remind_me->diffInSeconds(now()) > 0 ? $interview->remind_me->diffInSeconds(now()) : 0);
+
 
         return new InterviewResource($interview);
     }

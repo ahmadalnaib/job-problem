@@ -9,6 +9,7 @@ use App\Models\Interview;
 use Illuminate\Http\Request;
 use App\Models\JobApplication;
 use App\Jobs\SendInterviewReminder;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreInterviewRequest;
 use App\Http\Requests\UpdateInterviewRequest;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -44,20 +45,14 @@ class InterviewController extends Controller
     {
         $interview = Interview::create([
             'job_application_id' => $request->input('job_application_id'),
-            'scheduled_at'=>$request->input('scheduled_at'),
+            'scheduled_at' => Carbon::parse($request->input('scheduled_at'))->setTimezone('UTC'),
             'remind_me' => $request->input('remind_me'),
-        //   'scheduled_at' => Carbon::parse($request->input('scheduled_at'))->utc(),
-        //    'remind_me' => Carbon::parse($request->input('remind_me'))->utc(),
             'location' => $request->input('location'),
         ]);
+   
 
-    //        SendInterviewReminder::dispatch($interview)
-    // ->delay($interview->remind_me->diffInSeconds(now()) > 0 ? $interview->remind_me->diffInSeconds(now()) : 0);
+  
 
-// SendInterviewReminder::dispatch($interview)
-//     ->delay($interview->remind_me);
-// SendInterviewReminder::dispatch($interview)
-//     ->delay($interview->remind_me->copy()->setTimezone('UTC'));
 
         return redirect()->route('interviews.index');
     }

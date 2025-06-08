@@ -1,5 +1,6 @@
 <template>
-    <AppLayout>
+        <Head title="Interviews" />
+    <AppLayout >
         <div class="container mx-auto flex h-[70vh] overflow-hidden rounded-xl bg-white px-2 py-10 shadow dark:bg-gray-900">
             <!-- Sidebar: Interviews List -->
             <div class="flex w-1/3 flex-col overflow-y-auto border-r border-gray-200 dark:border-gray-800">
@@ -78,7 +79,7 @@
                                             />
                                         </svg>
                                         <span class="text-xs font-semibold text-purple-700 dark:text-purple-200">Remind Me:</span>
-                                        <span class="text-xs text-gray-700 dark:text-gray-200">{{ formatDate(selected.remind_me) }}</span>
+                                        <span class="text-xs text-gray-700 dark:text-gray-200">{{ formatDate(selected.remind_me,false) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -174,7 +175,7 @@
 
 <script setup>
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Link, router } from '@inertiajs/vue3';
+import { Link, router,Head } from '@inertiajs/vue3';
 import { ref, watchEffect } from 'vue';
 
 const props = defineProps({
@@ -193,16 +194,22 @@ const selectInterview = (interview) => {
     selected.value = interview;
 };
 
-const formatDate = (dateStr) => {
-  const options = {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  };
-  return new Date(dateStr).toLocaleString(undefined, options);
-};
+function formatDate(dateString, showTime = true) {
+    // Convert "YYYY-MM-DD HH:mm:ss" → "YYYY-MM-DDTHH:mm:ssZ"
+    const isoUtcString = dateString.replace(' ', 'T') + 'Z';
+    const date = new Date(isoUtcString); // now correctly treated as UTC
+
+    const options = {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        ...(showTime && { hour: '2-digit', minute: '2-digit' }),
+    };
+
+    return date.toLocaleString(undefined, options); // uses user's local time and locale
+}
+
+
 
 const deleteInterview = (id) => {
     if (confirm('Are you sure you want to delete this interview?')) {

@@ -12,28 +12,29 @@ class SendInterviewReminder implements ShouldQueue
 {
     use Queueable;
 
-    /**
-     * Create a new job instance.
-     */
- protected $interview;
+    public $timeout = 60;
+    public $tries = 3;
+    public $backoff = [10, 30];
+    
+    protected $interview;
 
     public function __construct(Interview $interview)
     {
         $this->interview = $interview;
     }
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
-           if (!$this->interview->reminder_sent) {
-            Mail::to($this->interview->jobApplication->user->email)->send(
-                new InterviewReminderMail($this->interview)
-            );
-
-            $this->interview->update(['reminder_sent' => true]);
+        // Double-check to prevent race conditions
+        $freshInterview = $this->interview->fresh();
+        
+        if (!$freshInterview || $freshInterview->reminder_sent) {
+            return;
         }
-    
+
+        Mail::to($freshInterview->jobApplication->user->email)
+            ->send(new InterviewReminderMail($freshInterview));
+
+        $freshInterview->update(['reminder_sent' => true]);
     }
 }

@@ -1,5 +1,6 @@
 <template>
   <AppLayout>
+           <Head title="Edit Interview" />
     <div class="mt-10 p-6 bg-white shadow-md rounded-lg">
       <h1 class="text-2xl font-bold mb-6 text-gray-800">Edit Interview</h1>
       <form @submit.prevent="submit">
@@ -64,7 +65,7 @@
 </template>
 
 <script setup>
-import { useForm } from '@inertiajs/vue3'
+import { useForm,Head } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue';
 
 const props = defineProps({
