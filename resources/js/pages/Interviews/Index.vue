@@ -213,7 +213,26 @@ function formatDate(dateString, showTime = true) {
 
 const deleteInterview = (id) => {
     if (confirm('Are you sure you want to delete this interview?')) {
-        router.delete(`/interviews/${id}`);
+       router.delete(`/interviews/${id}`, {
+            onSuccess: () => {
+                // Find the index of the deleted interview
+                const idx = props.interviews.findIndex(i => i.id === id || i.slug === id);
+                // Remove the deleted interview from the local array (if you want instant UI update)
+                // props.interviews.splice(idx, 1); // Uncomment if you want to mutate the prop (not recommended)
+                // Select the next interview if available
+                if (props.interviews.length > 1) {
+                    // Try to select the next one, or previous if last
+                    const nextIdx = idx < props.interviews.length - 1 ? idx + 1 : idx - 1;
+                    selected.value = props.interviews[nextIdx];
+                } else {
+                    // No interviews left, refresh the page or clear selection
+                    selected.value = null;
+                    // Optionally, force a reload to get fresh data
+                    router.reload();
+                }
+            }
+        });
+        
     }
 };
 </script>

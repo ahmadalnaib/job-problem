@@ -190,13 +190,23 @@ const formatDate = (dateStr) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Date(dateStr).toLocaleDateString(undefined, options);
 };
-
 const deleteApplication = (id) => {
     if (confirm('Are you sure you want to delete this application?')) {
-        router.delete(`/job-applications/${id}`);
-        if (selected.value && selected.value.id === id) {
-            selected.value = null;
-        }
+        router.delete(`/job-applications/${id}`, {
+            onSuccess: () => {
+                // Find the index of the deleted application
+                const idx = props.jobApplications.findIndex(app => app.id === id || app.slug === id);
+                // If there are more applications, select the next or previous one
+                if (props.jobApplications.length > 1) {
+                    const nextIdx = idx < props.jobApplications.length - 1 ? idx + 1 : idx - 1;
+                    selected.value = props.jobApplications[nextIdx];
+                } else {
+                    // No applications left, clear selection and optionally reload
+                    selected.value = null;
+                    router.reload();
+                }
+            }
+        });
     }
 };
 </script>
