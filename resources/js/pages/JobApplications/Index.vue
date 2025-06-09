@@ -1,5 +1,6 @@
 <template>
     <AppLayout>
+        <Head title="Job Applications" />
         <div class="container mx-auto flex h-[70vh] overflow-hidden rounded-xl bg-white px-2 py-10 shadow dark:bg-gray-900">
             <!-- Sidebar: Applications List -->
             <div class="flex w-1/3 flex-col overflow-y-auto border-r border-gray-200 dark:border-gray-800">
@@ -165,7 +166,7 @@
 
 <script setup>
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Link, router } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, watchEffect } from 'vue';
 
 const props = defineProps({

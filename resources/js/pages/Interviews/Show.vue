@@ -5,6 +5,22 @@ import { Head, Link } from '@inertiajs/vue3'
 defineProps({
   interview: Object,
 })
+
+function formatDate(dateString, showTime = true) {
+    // Convert "YYYY-MM-DD HH:mm:ss" → "YYYY-MM-DDTHH:mm:ssZ"
+    const isoUtcString = dateString.replace(' ', 'T') + 'Z';
+    const date = new Date(isoUtcString); // now correctly treated as UTC
+
+    const options = {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        ...(showTime && { hour: '2-digit', minute: '2-digit' }),
+    };
+
+    return date.toLocaleString(undefined, options); // uses user's local time and locale
+}
+
 </script>
 
 <template>
@@ -31,7 +47,7 @@ defineProps({
               <div class="text-center">
                 <div class="mb-1 text-xs font-semibold tracking-wider text-blue-700 uppercase dark:text-blue-200">Scheduled</div>
                 <div class="text-lg font-bold text-gray-900 dark:text-gray-100">
-                  {{ new Date(interview.scheduled_at).toLocaleString() }}
+                  {{ formatDate(interview.scheduled_at) }}
                 </div>
                 <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
                   {{ interview.job_application?.company }}
@@ -67,11 +83,11 @@ defineProps({
               </div>
               <div>
                 <span class="font-semibold">Scheduled At:</span>
-                <span>{{ new Date(interview.scheduled_at).toLocaleString() }}</span>
+                <span>{{ formatDate(interview.scheduled_at) }}</span>
               </div>
               <div>
                 <span class="font-semibold">Reminder At:</span>
-                <span>{{ new Date(interview.remind_me).toLocaleString() }}</span>
+                <span>{{ formatDate(interview.remind_me,false) }}</span>
               </div>
             </div>
           </div>
