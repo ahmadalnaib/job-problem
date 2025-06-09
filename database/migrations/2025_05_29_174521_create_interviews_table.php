@@ -16,8 +16,9 @@ return new class extends Migration
               $table->foreignId('job_application_id')->constrained()->onDelete('cascade');
               $table->dateTime('scheduled_at');
              $table->string('slug')->unique();
-              $table->date('remind_me');
-              $table->string('location');
+              $table->date('remind_me')->nullable();
+              $table->string('location')->nullable();
+              $table->string('meeting_link')->nullable();
               $table->boolean('reminder_sent')->default(false);
               $table->timestamps();
         });

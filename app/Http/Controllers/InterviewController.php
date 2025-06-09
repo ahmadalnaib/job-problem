@@ -48,6 +48,7 @@ class InterviewController extends Controller
             'scheduled_at' => Carbon::parse($request->input('scheduled_at'))->setTimezone('UTC'),
             'remind_me' => $request->input('remind_me'),
             'location' => $request->input('location'),
+            'meeting_link' => $request->input('meeting_link'),
         ]);
    
 

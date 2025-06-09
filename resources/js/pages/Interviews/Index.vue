@@ -1,6 +1,6 @@
 <template>
-        <Head title="Interviews" />
-    <AppLayout >
+    <Head title="Interviews" />
+    <AppLayout>
         <div class="container mx-auto flex h-[70vh] overflow-hidden rounded-xl bg-white px-2 py-10 shadow dark:bg-gray-900">
             <!-- Sidebar: Interviews List -->
             <div class="flex w-1/3 flex-col overflow-y-auto border-r border-gray-200 dark:border-gray-800">
@@ -37,7 +37,7 @@
                 <div v-if="selected" class="flex h-full flex-col">
                     <!-- Interview Timeline Card -->
                     <div
-                        class="relative mb-8 flex flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-purple-50 to-white  md:flex-row dark:border-purple-900 dark:from-purple-950 dark:to-gray-900"
+                        class="relative mb-8 flex flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-purple-50 to-white md:flex-row dark:border-purple-900 dark:from-purple-950 dark:to-gray-900"
                     >
                         <!-- Timeline & Date -->
                         <div
@@ -63,7 +63,10 @@
                                     <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">{{ selected.location }}</div>
                                 </div>
                                 <div class="mt-6 w-full">
-                                    <div class="flex items-center gap-2 rounded-xl bg-purple-100 px-4 py-2 shadow dark:bg-purple-900">
+                                    <div
+                                        v-if="selected.remind_me"
+                                        class="flex items-center gap-2 rounded-xl bg-purple-100 px-4 py-2 shadow dark:bg-purple-900"
+                                    >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             class="h-5 w-5 text-purple-500"
@@ -79,7 +82,7 @@
                                             />
                                         </svg>
                                         <span class="text-xs font-semibold text-purple-700 dark:text-purple-200">Remind Me:</span>
-                                        <span class="text-xs text-gray-700 dark:text-gray-200">{{ formatDate(selected.remind_me,false) }}</span>
+                                        <span class="text-xs text-gray-700 dark:text-gray-200">{{ formatDate(selected.remind_me, false) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -107,16 +110,51 @@
                                     {{ selected.job_application.status }}
                                 </span>
                             </div>
+                            <!-- Details with Icons -->
                             <div class="mb-4 grid grid-cols-1 gap-x-8 gap-y-2 text-sm text-gray-700 md:grid-cols-2 dark:text-gray-300">
-                                <div>
+                                <div class="flex items-center gap-2">
+                                    <!-- Briefcase Icon -->
+                                    <svg class="h-4 w-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M9 6V4a3 3 0 016 0v2m2 0a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V8a2 2 0 012-2h10z"
+                                        />
+                                    </svg>
                                     <span class="font-semibold">Position:</span>
                                     <span>{{ selected.job_application.position }}</span>
                                 </div>
-                                <div>
+                                <div class="flex items-center gap-2">
+                                    <!-- Calendar Icon -->
+                                    <svg class="h-4 w-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                        />
+                                    </svg>
                                     <span class="font-semibold">Applied At:</span>
                                     <span>{{ selected.job_application.applied_at }}</span>
                                 </div>
-                                <div>
+                                <div class="flex items-center gap-2">
+                                    <!-- Link Icon -->
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="h-10 w-10 font-extrabold text-purple-500"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
+                                        />
+                                    </svg>
+
                                     <span class="font-semibold">Job Link:</span>
                                     <a
                                         :href="selected.job_application.job_link"
@@ -126,8 +164,36 @@
                                         {{ selected.job_application.job_link }}
                                     </a>
                                 </div>
-                              
-                                <div v-if="selected.job_application.note" class="md:col-span-2">
+                                <!-- Meeting Link -->
+                                <div v-if="selected.meeting_link" class="flex items-center gap-2 md:col-span-2">
+                                    <!-- Video Camera Icon -->
+                                    <svg class="h-4 w-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M4 6h8a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2z"
+                                        />
+                                    </svg>
+                                    <span class="font-semibold">Meeting Link:</span>
+                                    <a
+                                        :href="selected.meeting_link"
+                                        target="_blank"
+                                        class="break-all text-purple-600 underline hover:text-purple-800"
+                                    >
+                                        {{ selected.meeting_link }}
+                                    </a>
+                                </div>
+                                <div v-if="selected.job_application.note" class="flex items-center gap-2 md:col-span-2">
+                                    <!-- Note Icon -->
+                                    <svg class="h-4 w-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M7 8h10M7 12h4m1 8h-6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v7m-2 5l5-5"
+                                        />
+                                    </svg>
                                     <span class="font-semibold">Notes:</span>
                                     <span class="block whitespace-pre-line">{{ selected.job_application.note }}</span>
                                 </div>
@@ -175,7 +241,7 @@
 
 <script setup>
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Link, router,Head } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, watchEffect } from 'vue';
 
 const props = defineProps({
@@ -195,30 +261,24 @@ const selectInterview = (interview) => {
 };
 
 function formatDate(dateString, showTime = true) {
-    // Convert "YYYY-MM-DD HH:mm:ss" → "YYYY-MM-DDTHH:mm:ssZ"
+    if (!dateString) return ''; // Prevents error if dateString is null/undefined
     const isoUtcString = dateString.replace(' ', 'T') + 'Z';
-    const date = new Date(isoUtcString); // now correctly treated as UTC
-
+    const date = new Date(isoUtcString);
     const options = {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
         ...(showTime && { hour: '2-digit', minute: '2-digit' }),
     };
-
-    return date.toLocaleString(undefined, options); // uses user's local time and locale
+    return date.toLocaleString(undefined, options);
 }
-
-
 
 const deleteInterview = (id) => {
     if (confirm('Are you sure you want to delete this interview?')) {
-       router.delete(`/interviews/${id}`, {
+        router.delete(`/interviews/${id}`, {
             onSuccess: () => {
                 // Find the index of the deleted interview
-                const idx = props.interviews.findIndex(i => i.id === id || i.slug === id);
-                // Remove the deleted interview from the local array (if you want instant UI update)
-                // props.interviews.splice(idx, 1); // Uncomment if you want to mutate the prop (not recommended)
+                const idx = props.interviews.findIndex((i) => i.id === id || i.slug === id);
                 // Select the next interview if available
                 if (props.interviews.length > 1) {
                     // Try to select the next one, or previous if last
@@ -227,12 +287,10 @@ const deleteInterview = (id) => {
                 } else {
                     // No interviews left, refresh the page or clear selection
                     selected.value = null;
-                    // Optionally, force a reload to get fresh data
                     router.reload();
                 }
-            }
+            },
         });
-        
     }
 };
 </script>

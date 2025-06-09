@@ -34,8 +34,8 @@
           <input
             v-model="form.remind_me"
             id="remind_me"
-            type="datetime-local"
-            :min="minDateTime"
+            type="date"
+            :min="minDate"
             class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <p v-if="form.errors.remind_me" class="text-red-600 text-sm mt-1">{{ form.errors.remind_me }}</p>
@@ -51,6 +51,17 @@
             placeholder="Enter location"
           />
           <p v-if="form.errors.location" class="text-red-600 text-sm mt-1">{{ form.errors.location }}</p>
+        </div>
+           <div class="mb-6">
+          <label class="block text-gray-700 font-medium mb-2" for="location">Meeting Link</label>
+          <input
+            v-model="form.meeting_link"
+            id="meeting_link"
+            type="text"
+            class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter meeting link"
+          />
+          <p v-if="form.errors.meeting_link" class="text-red-600 text-sm mt-1">{{ form.errors.meeting_link }}</p>
         </div>
 
         <button
@@ -75,13 +86,14 @@ const props = defineProps({
 
 const pad = n => n < 10 ? '0' + n : n
 const now = new Date()
-const minDateTime = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`
-
+const minDate = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+const formatDate = (dateStr) => dateStr ? dateStr.slice(0, 10) : '';
 const form = useForm({
   job_application_id: props.interview.job_application_id,
-  remind_me: props.interview.remind_me,
+  remind_me: formatDate(props.interview.remind_me),
   scheduled_at: props.interview.scheduled_at,
   location: props.interview.location,
+  meeting_link: props.interview.meeting_link,
 })
 
 const submit = () => {

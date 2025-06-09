@@ -25,7 +25,7 @@ protected $guarded = [];
     {
         static::creating(function ($interview) {
             $interview->slug = Str::slug(
-                $interview->location  . '-' . uniqid()
+                $interview->scheduled_at  . '-' . uniqid()
             );
         });
     }

@@ -78,7 +78,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Details -->
+                        <!-- Details with Icons -->
                         <div class="flex flex-1 flex-col p-8">
                             <div class="mb-4 flex items-center gap-4">
                                 <h2 class="text-2xl font-extrabold text-gray-900 dark:text-gray-100">
@@ -100,25 +100,76 @@
                                 </span>
                             </div>
                             <div class="mb-4 grid grid-cols-1 gap-x-8 gap-y-2 text-sm text-gray-700 md:grid-cols-2 dark:text-gray-300">
-                                <div>
+                                <div class="flex items-center gap-2">
+                                    <!-- Office Building Icon -->
+                                    <svg class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M3 21V7a2 2 0 012-2h2a2 2 0 012 2v14m0-14h6a2 2 0 012 2v14m0-14h2a2 2 0 012 2v14M9 21V9a2 2 0 012-2h2a2 2 0 012 2v12"
+                                        />
+                                    </svg>
                                     <span class="font-semibold">Company:</span>
                                     <span>{{ selected.company }}</span>
                                 </div>
-                                <div>
+                                <div class="flex items-center gap-2">
+                                    <!-- Briefcase Icon -->
+                                    <svg class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M9 6V4a3 3 0 016 0v2m2 0a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V8a2 2 0 012-2h10z"
+                                        />
+                                    </svg>
                                     <span class="font-semibold">Position:</span>
                                     <span>{{ selected.position }}</span>
                                 </div>
-                                <div>
+                                <div class="flex items-center gap-2">
+                                    <!-- Calendar Icon -->
+                                    <svg class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                        />
+                                    </svg>
                                     <span class="font-semibold">Applied At:</span>
                                     <span>{{ formatDate(selected.applied_at) }}</span>
                                 </div>
-                                <div v-if="selected.job_link">
+                                <div v-if="selected.job_link" class="flex items-center gap-2">
+                                    <!-- Link Icon -->
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="h-10 w-10 font-extrabold text-blue-500"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
+                                        />
+                                    </svg>
                                     <span class="font-semibold">Job Link:</span>
                                     <a :href="selected.job_link" target="_blank" class="break-all text-blue-600 underline hover:text-blue-800">
                                         {{ selected.job_link }}
                                     </a>
                                 </div>
-                                <div v-if="selected.note" class="md:col-span-2">
+                                <div v-if="selected.note" class="flex items-center gap-2 md:col-span-2">
+                                    <!-- Note Icon -->
+                                    <svg class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M7 8h10M7 12h4m1 8h-6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v7m-2 5l5-5"
+                                        />
+                                    </svg>
                                     <span class="font-semibold">Notes:</span>
                                     <span class="block whitespace-pre-line">{{ selected.note }}</span>
                                 </div>
@@ -195,7 +246,7 @@ const deleteApplication = (id) => {
         router.delete(`/job-applications/${id}`, {
             onSuccess: () => {
                 // Find the index of the deleted application
-                const idx = props.jobApplications.findIndex(app => app.id === id || app.slug === id);
+                const idx = props.jobApplications.findIndex((app) => app.id === id || app.slug === id);
                 // If there are more applications, select the next or previous one
                 if (props.jobApplications.length > 1) {
                     const nextIdx = idx < props.jobApplications.length - 1 ? idx + 1 : idx - 1;
@@ -205,7 +256,7 @@ const deleteApplication = (id) => {
                     selected.value = null;
                     router.reload();
                 }
-            }
+            },
         });
     }
 };

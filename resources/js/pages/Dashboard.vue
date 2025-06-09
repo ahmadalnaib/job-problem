@@ -88,23 +88,45 @@ const breadcrumbs: BreadcrumbItem[] = [
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 ">
             <!-- Top: Jobs Applied (full width) -->
-            <div>
-                <div
-                    class="relative flex h-36 flex-col items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r from-blue-500 to-blue-700 p-6 text-white shadow-lg"
-                >
-                    <div class="pointer-events-none absolute top-3 right-3 text-6xl opacity-20 select-none">📄</div>
-                    <div class="z-10 flex flex-col items-center">
-                        <span class="mb-1 text-sm font-medium tracking-wider uppercase">Jobs Applied</span>
-                        <span class="text-4xl font-extrabold">{{ props.jobCount }}</span>
-                    </div>
-                </div>
-            </div>
+       <!-- Top: Jobs Applied (modern, clean, no extra card, just stats) -->
+<div class="flex flex-col md:flex-row gap-6 mb-8">
+  <!-- Jobs Applied Stat -->
+  <div class="flex-1 flex items-center justify-center bg-gradient-to-tr from-blue-500 via-blue-300 to-blue-100 rounded-2xl shadow-lg py-10 px-8">
+    <div class="flex items-center gap-5">
+      <span class="inline-flex items-center justify-center rounded-full bg-white/80 p-5 shadow">
+        <svg class="h-12 w-12 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 6V4a3 3 0 016 0v2m2 0a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V8a2 2 0 012-2h10z" />
+        </svg>
+      </span>
+      <div>
+        <div class="text-4xl font-extrabold text-white drop-shadow">{{ props.jobCount }}</div>
+        <div class="text-lg font-semibold text-white/90 mt-1">Jobs Applied</div>
+      </div>
+    </div>
+  </div>
+  <!-- Upcoming Interviews Stat -->
+  <div class="flex-1 flex items-center justify-center bg-gradient-to-tr from-green-400 via-green-200 to-white rounded-2xl shadow-lg py-10 px-8">
+    <div class="flex items-center gap-5">
+      <span class="inline-flex items-center justify-center rounded-full bg-white/80 p-5 shadow">
+        <svg class="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      </span>
+      <div>
+        <div class="text-4xl font-extrabold text-green-800 drop-shadow">{{ props.nextInterviews.length }}</div>
+        <div class="text-lg font-semibold text-green-900/90 mt-1">Upcoming Interviews</div>
+      </div>
+    </div>
+  </div>
+</div>
             <!-- Bottom: Two cards side by side on md+ screens, stacked on mobile -->
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <!-- Upcoming Interviews Section (scrollable) -->
                 <div class="rounded-xl bg-white p-4 shadow dark:bg-gray-900">
                     <h2 class="mb-4 text-lg font-semibold">Upcoming Interviews (This Month)</h2>
-                    <div class="flex h-64 flex-col space-y-4 overflow-y-auto pb-2">
+                    <div class="flex h-96 flex-col space-y-4 overflow-y-auto pb-2">
                         <Link
                             v-for="interview in props.nextInterviews"
                             :key="interview.id"

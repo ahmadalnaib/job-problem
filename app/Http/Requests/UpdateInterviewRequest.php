@@ -24,8 +24,9 @@ class UpdateInterviewRequest extends FormRequest
          return [
             'job_application_id' => 'required|exists:job_applications,id',
             'scheduled_at' => 'required|date',
-            'remind_me' => 'required|date',
-            'location' => 'required|string|max:255',
+            'remind_me' => 'date|nullable',
+            'location' => 'string|max:255|nullable',
+            'meeting_link' => 'nullable|string|max:255',
         ];
     }
 }

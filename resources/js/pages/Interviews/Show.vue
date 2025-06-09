@@ -7,20 +7,17 @@ defineProps({
 })
 
 function formatDate(dateString, showTime = true) {
-    // Convert "YYYY-MM-DD HH:mm:ss" → "YYYY-MM-DDTHH:mm:ssZ"
+    if (!dateString) return ''; // Prevents error if dateString is null/undefined
     const isoUtcString = dateString.replace(' ', 'T') + 'Z';
-    const date = new Date(isoUtcString); // now correctly treated as UTC
-
+    const date = new Date(isoUtcString);
     const options = {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
         ...(showTime && { hour: '2-digit', minute: '2-digit' }),
     };
-
-    return date.toLocaleString(undefined, options); // uses user's local time and locale
+    return date.toLocaleString(undefined, options);
 }
-
 </script>
 
 <template>
@@ -65,27 +62,60 @@ function formatDate(dateString, showTime = true) {
               </h2>
             </div>
             <div class="mb-4 grid grid-cols-1 gap-x-8 gap-y-2 text-sm text-gray-700 md:grid-cols-2 dark:text-gray-300">
-              <div>
+              <div class="flex items-center gap-2">
+                <!-- Office Building Icon -->
+                <svg class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 21V7a2 2 0 012-2h2a2 2 0 012 2v14m0-14h6a2 2 0 012 2v14m0-14h2a2 2 0 012 2v14M9 21V9a2 2 0 012-2h2a2 2 0 012 2v12" />
+                </svg>
                 <span class="font-semibold">Company:</span>
                 <span>{{ interview.job_application?.company }}</span>
               </div>
-              <div>
+              <div class="flex items-center gap-2">
+                <!-- Briefcase Icon -->
+                <svg class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 6V4a3 3 0 016 0v2m2 0a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V8a2 2 0 012-2h10z" />
+                </svg>
                 <span class="font-semibold">Position:</span>
                 <span>{{ interview.job_application?.position }}</span>
               </div>
-              <div>
+              <div class="flex items-center gap-2">
+                <!-- Location Icon -->
+                <svg class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
+                  <circle cx="12" cy="11" r="3" />
+                </svg>
                 <span class="font-semibold">Location:</span>
                 <span>{{ interview.location }}</span>
               </div>
-              <div>
+              <div class="flex items-center gap-2">
+                <!-- User Icon -->
+                <svg class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M5.121 17.804A9 9 0 1112 21a9 9 0 01-6.879-3.196z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
                 <span class="font-semibold">User:</span>
                 <span>{{ interview.job_application?.user?.name || 'Unknown' }}</span>
               </div>
-              <div>
+              <div class="flex items-center gap-2">
+                <!-- Calendar Icon -->
+                <svg class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
                 <span class="font-semibold">Scheduled At:</span>
                 <span>{{ formatDate(interview.scheduled_at) }}</span>
               </div>
-              <div>
+              <div class="flex items-center gap-2">
+                <!-- Bell/Reminder Icon -->
+                <svg class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
                 <span class="font-semibold">Reminder At:</span>
                 <span>{{ formatDate(interview.remind_me,false) }}</span>
               </div>

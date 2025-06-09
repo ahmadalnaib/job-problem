@@ -24,8 +24,9 @@ class StoreInterviewRequest extends FormRequest
        return [
             'job_application_id' => 'required|exists:job_applications,id',
             'scheduled_at' => 'required|date',
-            'remind_me' => 'required|date',
-            'location' => 'required|string|max:255',
+            'remind_me' => 'date|nullable',
+            'meeting_link' => 'string|max:255|nullable',
+            'location' => 'string|max:255|nullable',
         ];
     }
 }
