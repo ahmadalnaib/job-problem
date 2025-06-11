@@ -20,7 +20,7 @@ class InterviewController extends Controller
         ->whereHas('jobApplication', function ($query) use ($request) {
             $query->where('user_id', $request->user()->id);
         })
-        ->orderByDesc('scheduled_at')
+        ->orderBy('scheduled_at')
         ->get();
 
     return InterviewResource::collection($interviews);
