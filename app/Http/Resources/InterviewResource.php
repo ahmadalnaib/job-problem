@@ -22,6 +22,7 @@ class InterviewResource extends JsonResource
             'slug' => $this->slug,
             'remind_me' => $this->remind_me,
             'location' => $this->location,
+            'meeting_link' => $this->meeting_link,
             'reminder_sent' => $this->reminder_sent,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
