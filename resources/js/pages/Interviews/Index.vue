@@ -14,21 +14,30 @@
                     </Link>
                 </div>
                 <ul class="flex-1">
-                    <li
-                        v-for="interview in interviews"
-                        :key="interview.id"
-                        @click="selectInterview(interview)"
-                        :class="[
-                            'cursor-pointer border-b border-gray-100 px-4 py-3 transition hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800',
-                            selected && selected.id === interview.id ? 'bg-gray-100 font-semibold dark:bg-gray-800' : '',
-                        ]"
-                    >
-                        <div class="flex items-center justify-between">
-                            <span>{{ interview.job_application.position }}</span>
-                            <span class="ml-2 text-xs text-gray-500">{{ formatDate(interview.scheduled_at) }}</span>
-                        </div>
-                        <div class="text-xs text-gray-500">{{ interview.job_application.company }}</div>
-                    </li>
+                 <li
+    v-for="interview in interviews"
+    :key="interview.id"
+    @click="selectInterview(interview)"
+    :class="[
+        'cursor-pointer border-b border-gray-100 px-4 py-3 transition hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800',
+        selected && selected.id === interview.id ? 'bg-gray-100 font-semibold dark:bg-gray-800' : '',
+        isToday(interview.scheduled_at) ? 'bg-yellow-100' : ''
+    ]"
+>
+    <div class="flex items-center justify-between">
+        <span>{{ interview.job_application.position }}</span>
+        <span class="ml-2 text-xs text-gray-500">
+            {{ formatDate(interview.scheduled_at) }}
+            <span
+                v-if="isToday(interview.scheduled_at)"
+                class="ml-2 font-bold text-red-600"
+            >
+                Today
+            </span>
+        </span>
+    </div>
+    <div class="text-xs text-gray-500">{{ interview.job_application.company }}</div>
+</li>
                 </ul>
             </div>
 
@@ -260,9 +269,20 @@ const selectInterview = (interview) => {
     selected.value = interview;
 };
 
+function isToday(dateString) {
+    if (!dateString) return false;
+    const date = new Date(dateString.replace(' ', 'T'));
+    const today = new Date();
+    return (
+        date.getDate() === today.getDate() &&
+        date.getMonth() === today.getMonth() &&
+        date.getFullYear() === today.getFullYear()
+    );
+}
+
 function formatDate(dateString, showTime = true) {
     if (!dateString) return ''; // Prevents error if dateString is null/undefined
-    const isoUtcString = dateString.replace(' ', 'T') + 'Z';
+    const isoUtcString = dateString.replace(' ', 'T') ;
     const date = new Date(isoUtcString);
     const options = {
         year: 'numeric',

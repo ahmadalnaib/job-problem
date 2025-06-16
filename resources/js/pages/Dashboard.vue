@@ -71,6 +71,12 @@ function renderChart() {
         },
     });
 }
+function isToday(dateString: string): boolean {
+    if (!dateString) return false;
+    const date = new Date(dateString.replace(' ', 'T'));
+    const today = new Date();
+    return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
+}
 
 onMounted(renderChart);
 watch(() => props.statusCounts, renderChart);
@@ -86,41 +92,53 @@ const breadcrumbs: BreadcrumbItem[] = [
 <template>
     <Head title="Dashboard" />
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 ">
+        <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
             <!-- Top: Jobs Applied (full width) -->
-       <!-- Top: Jobs Applied (modern, clean, no extra card, just stats) -->
-<div class="flex flex-col md:flex-row gap-6 mb-8">
-  <!-- Jobs Applied Stat -->
-  <div class="flex-1 flex items-center justify-center bg-gradient-to-tr from-blue-500 via-blue-300 to-blue-100 rounded-2xl shadow-lg py-10 px-8">
-    <div class="flex items-center gap-5">
-      <span class="inline-flex items-center justify-center rounded-full bg-white/80 p-5 shadow">
-        <svg class="h-12 w-12 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M9 6V4a3 3 0 016 0v2m2 0a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V8a2 2 0 012-2h10z" />
-        </svg>
-      </span>
-      <div>
-        <div class="text-4xl font-extrabold text-white drop-shadow">{{ props.jobCount }}</div>
-        <div class="text-lg font-semibold text-white/90 mt-1">Jobs Applied</div>
-      </div>
-    </div>
-  </div>
-  <!-- Upcoming Interviews Stat -->
-  <div class="flex-1 flex items-center justify-center bg-gradient-to-tr from-green-400 via-green-200 to-white rounded-2xl shadow-lg py-10 px-8">
-    <div class="flex items-center gap-5">
-      <span class="inline-flex items-center justify-center rounded-full bg-white/80 p-5 shadow">
-        <svg class="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-      </span>
-      <div>
-        <div class="text-4xl font-extrabold text-green-800 drop-shadow">{{ props.nextInterviews.length }}</div>
-        <div class="text-lg font-semibold text-green-900/90 mt-1">Upcoming Interviews</div>
-      </div>
-    </div>
-  </div>
-</div>
+            <!-- Top: Jobs Applied (modern, clean, no extra card, just stats) -->
+            <div class="mb-8 flex flex-col gap-6 md:flex-row">
+                <!-- Jobs Applied Stat -->
+                <div
+                    class="flex flex-1 items-center justify-center rounded-2xl bg-gradient-to-tr from-blue-500 via-blue-300 to-blue-100 px-8 py-10 shadow-lg"
+                >
+                    <div class="flex items-center gap-5">
+                        <span class="inline-flex items-center justify-center rounded-full bg-white/80 p-5 shadow">
+                            <svg class="h-12 w-12 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M9 6V4a3 3 0 016 0v2m2 0a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V8a2 2 0 012-2h10z"
+                                />
+                            </svg>
+                        </span>
+                        <div>
+                            <div class="text-4xl font-extrabold text-white drop-shadow">{{ props.jobCount }}</div>
+                            <div class="mt-1 text-lg font-semibold text-white/90">Jobs Applied</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Upcoming Interviews Stat -->
+                <div
+                    class="flex flex-1 items-center justify-center rounded-2xl bg-gradient-to-tr from-green-400 via-green-200 to-white px-8 py-10 shadow-lg"
+                >
+                    <div class="flex items-center gap-5">
+                        <span class="inline-flex items-center justify-center rounded-full bg-white/80 p-5 shadow">
+                            <svg class="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                />
+                            </svg>
+                        </span>
+                        <div>
+                            <div class="text-4xl font-extrabold text-green-800 drop-shadow">{{ props.nextInterviews.length }}</div>
+                            <div class="mt-1 text-lg font-semibold text-green-900/90">Upcoming Interviews</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Bottom: Two cards side by side on md+ screens, stacked on mobile -->
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <!-- Upcoming Interviews Section (scrollable) -->
@@ -131,14 +149,18 @@ const breadcrumbs: BreadcrumbItem[] = [
                             v-for="interview in props.nextInterviews"
                             :key="interview.id"
                             :href="`/interviews/${interview.slug}`"
-                            class="group w-full rounded-lg border border-gray-200 bg-gray-50 p-4 transition hover:border-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-blue-400"
+                            :class="[
+                                'group w-full rounded-lg border bg-gray-50 p-4 transition hover:border-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-blue-400',
+                                isToday(interview.scheduled_at) ? 'border-yellow-300 bg-yellow-100' : 'border-gray-200',
+                            ]"
                         >
                             <div class="mb-1 flex items-center justify-between">
                                 <h3 class="text-md font-bold text-blue-600 group-hover:underline dark:text-blue-400">
                                     {{ interview.job_application?.position }} @ {{ interview.job_application?.company }}
                                 </h3>
-                                <span class="text-xs text-gray-500 dark:text-gray-400">
+                                <span class="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
                                     {{ new Date(interview.scheduled_at).toLocaleDateString() }}
+                                    <span v-if="isToday(interview.scheduled_at)" class="ml-2 font-bold text-red-600"> Today </span>
                                 </span>
                             </div>
                             <div class="text-sm text-gray-700 dark:text-gray-300">📍 {{ interview.location }}</div>

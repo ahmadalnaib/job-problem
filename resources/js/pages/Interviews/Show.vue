@@ -8,7 +8,7 @@ defineProps({
 
 function formatDate(dateString, showTime = true) {
     if (!dateString) return ''; // Prevents error if dateString is null/undefined
-    const isoUtcString = dateString.replace(' ', 'T') + 'Z';
+    const isoUtcString = dateString.replace(' ', 'T') ;
     const date = new Date(isoUtcString);
     const options = {
         year: 'numeric',
