@@ -1,4 +1,4 @@
-<script setup >
+<script setup>
 import { Dialog, DialogPanel } from '@headlessui/vue';
 import { ChevronRightIcon } from '@heroicons/vue/20/solid';
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline';
@@ -16,7 +16,7 @@ const mobileMenuOpen = ref(false);
 </script>
 
 <template>
-    <Head title="HumanHup - Job Application & Interview Management" >
+    <Head title="HumanHup - Job Application & Interview Management">
         <link rel="preconnect" href="https://rsms.me/" />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     </Head>
@@ -138,14 +138,13 @@ const mobileMenuOpen = ref(false);
                         >
                             <span class="font-semibold text-orange-600">iOS</span>
                             <span class="h-4 w-px bg-gray-900/10" aria-hidden="true" />
-                              <span class="font-semibold text-indigo-600">Web</span>
-                                <span class="h-4 w-px bg-gray-900/10" aria-hidden="true" />
+                            <span class="font-semibold text-indigo-600">Web</span>
+                            <span class="h-4 w-px bg-gray-900/10" aria-hidden="true" />
                             <a href="#" class="flex items-center gap-x-1">
                                 <span class="absolute inset-0" aria-hidden="true" />
-                               Android
+                                Android
                                 <ChevronRightIcon class="-mr-2 size-5 text-gray-400" aria-hidden="true" />
                             </a>
-                              
                         </div>
                     </div>
                     <h1 class="mt-10 text-5xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-6xl dark:text-gray-100">
@@ -183,4 +182,14 @@ const mobileMenuOpen = ref(false);
             </div>
         </div>
     </div>
+    <!-- Footer -->
+    <footer
+        class="border-t border-gray-200 bg-white py-4 text-center text-sm text-gray-500 dark:border-gray-700 dark:bg-[#0a0a0a] dark:text-gray-400"
+    >
+        <div class="flex justify-center space-x-4">
+            <Link :href="route('privacy')" class="hover:underline">Privacy</Link>
+            <span>&middot;</span>
+            <Link :href="route('terms')" class="hover:underline">Terms</Link>
+        </div>
+    </footer>
 </template>

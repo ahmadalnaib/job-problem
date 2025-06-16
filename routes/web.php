@@ -23,6 +23,14 @@ Route::resource('interviews', InterviewController::class)->parameters([
     'interviews' => 'interview:slug'
 ]);});
 
+Route::get('/privacy', function () {
+    return Inertia::render('Privacy');
+})->name('privacy');
+
+Route::get('/terms', function () {
+    return Inertia::render('Terms');
+})->name('terms');
+
 // Route::get('/test-email', function () {
 //     $interview = Interview::latest()->first(); // Replace with appropriate logic
 //     $timeFrame = 'Test Time Frame';
