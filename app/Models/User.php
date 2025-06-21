@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\JobApplication;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use NotificationChannels\Expo\ExpoPushToken;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -13,6 +14,7 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable,HasApiTokens;
+
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +25,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'expo_push_token',
     ];
 
     /**
@@ -45,6 +48,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+          'expo_push_token' => ExpoPushToken::class,
         ];
     }
 
@@ -52,4 +56,10 @@ class User extends Authenticatable
 {
     return $this->hasMany(JobApplication::class);
 }
+
+
+ public function routeNotificationForExpo(): ?ExpoPushToken
+    {
+        return $this->expo_push_token;
+    }
 }
