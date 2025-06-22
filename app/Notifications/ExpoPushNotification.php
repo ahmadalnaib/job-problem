@@ -11,11 +11,19 @@ class ExpoPushNotification extends Notification
 
     protected $title;
     protected $body;
+    protected $companyName;
+    protected $scheduledAt;
 
-    public function __construct($title = 'Hello!', $body = 'This is a push notification from Laravel via Expo.')
+    public function __construct(
+        $title = 'Interview Reminder',  
+        $body = 'You have an upcoming interview.',
+         $companyName = null,
+         $scheduledAt = null)
     {
         $this->title = $title;
         $this->body = $body;
+       $this->companyName = $companyName;
+        $this->scheduledAt = $scheduledAt;
     }
 
     public function via($notifiable)
@@ -25,9 +33,17 @@ class ExpoPushNotification extends Notification
 
     public function toExpo($notifiable)
     {
+         if ($this->companyName && $this->scheduledAt) {
+            $message = "Reminder: Your interview at {$this->companyName} is scheduled for {$this->scheduledAt}.";
+        } elseif ($this->companyName) {
+            $message = "Reminder: Your interview at {$this->companyName} is scheduled for today.";
+        } else {
+            $message = $this->body;
+        }
         return ExpoMessage::create()
             ->title($this->title)
-            ->body($this->body);
+            ->body($message);
+
     }
 
     public function toArray($notifiable)
@@ -35,6 +51,9 @@ class ExpoPushNotification extends Notification
         return [
             'title' => $this->title,
             'body' => $this->body,
+               'company' => $this->companyName,
+                'scheduled_at' => $this->scheduledAt,
+        
         ];
     }
 }

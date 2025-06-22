@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Interview;
 use Illuminate\Console\Command;
 use App\Jobs\SendInterviewReminder;
+use App\Jobs\SendInterviewNotification;
 
 class CheckInterviewReminders extends Command
 {
@@ -23,6 +24,7 @@ class CheckInterviewReminders extends Command
             ->chunk(100, function ($interviews) use (&$totalProcessed) {
                 foreach ($interviews as $interview) {
                     SendInterviewReminder::dispatch($interview);
+                      SendInterviewNotification::dispatch($interview);
                     $totalProcessed++;
                 }
             });

@@ -34,8 +34,6 @@ Route::post('/save-token', function (Request $request) {
 
     $user->expo_push_token = $request->expo_push_token;
 
-    // Log the received token
-    Log::info("User {$user->id} saving Expo push token: " . $request->expo_push_token);
 
     $user->save();
 
@@ -43,20 +41,20 @@ Route::post('/save-token', function (Request $request) {
 });
 });
 
-Route::post('/test-notification', function (Request $request) {
-    $user = User::whereNotNull('expo_push_token')->first();
+// Route::post('/test-notification', function (Request $request) {
+//     $user = User::whereNotNull('expo_push_token')->first();
 
-    if (!$user) {
-        return response()->json(['error' => 'No user with Expo push token found.'], 404);
-    }
+//     if (!$user) {
+//         return response()->json(['error' => 'No user with Expo push token found.'], 404);
+//     }
 
-    $user->notify(new ExpoPushNotification(
-        $request->input('title', 'Test Notification'),
-        $request->input('body', 'This is a test push notification from Laravel.')
-    ));
+//     $user->notify(new ExpoPushNotification(
+//         $request->input('title', 'Test Notification'),
+//         $request->input('body', 'This is a test push notification from Laravel.')
+//     ));
 
-    return response()->json(['success' => true]);
-});
+//     return response()->json(['success' => true]);
+// });
 
 
 Route::post('/auth/login', [AuthController::class, 'login']);
