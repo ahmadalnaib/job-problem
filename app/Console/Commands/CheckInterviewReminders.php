@@ -15,7 +15,8 @@ class CheckInterviewReminders extends Command
 
     public function handle()
     {
-      $today = Carbon::now()->startOfDay(); // today at 00:00:00
+      // $today = Carbon::now()->startOfDay(); // today at 00:00:00
+      $today = Carbon::now()->setTime(6, 30); // today at 06:30:00
         $totalProcessed = 0;
 
         // Process interviews in chunks to avoid memory issues
