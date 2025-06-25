@@ -98,7 +98,7 @@ const breadcrumbs: BreadcrumbItem[] = [
             <div class="mb-8 flex flex-col gap-6 md:flex-row">
                 <!-- Jobs Applied Stat -->
                 <div
-                    class="flex flex-1 items-center justify-center rounded-2xl bg-gradient-to-tr from-blue-500 via-blue-300 to-blue-100 px-8 py-10 shadow-lg"
+                    class="flex flex-1 items-center justify-center rounded-2xl bg-gray-100 px-8 py-10 shadow-lg"
                 >
                     <div class="flex items-center gap-5">
                         <span class="inline-flex items-center justify-center rounded-full bg-white/80 p-5 shadow">
@@ -112,14 +112,14 @@ const breadcrumbs: BreadcrumbItem[] = [
                             </svg>
                         </span>
                         <div>
-                            <div class="text-4xl font-extrabold text-white drop-shadow">{{ props.jobCount }}</div>
-                            <div class="mt-1 text-lg font-semibold text-white/90">Jobs Applied</div>
+                            <div class="text-4xl font-extrabold text-blue-600 drop-shadow">{{ props.jobCount }}</div>
+                            <div class="mt-1 text-lg font-semibold text-blue-600">Jobs Applied</div>
                         </div>
                     </div>
                 </div>
                 <!-- Upcoming Interviews Stat -->
                 <div
-                    class="flex flex-1 items-center justify-center rounded-2xl bg-gradient-to-tr from-green-400 via-green-200 to-white px-8 py-10 shadow-lg"
+                    class="flex flex-1 items-center justify-center rounded-2xl bg-gray-100 px-8 py-10 shadow-lg"
                 >
                     <div class="flex items-center gap-5">
                         <span class="inline-flex items-center justify-center rounded-full bg-white/80 p-5 shadow">
