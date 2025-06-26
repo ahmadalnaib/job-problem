@@ -15,21 +15,33 @@ class CheckInterviewReminders extends Command
 
     public function handle()
     {
-      // $today = Carbon::now()->startOfDay(); // today at 00:00:00
-      $today = Carbon::now()->setTime(6, 30); // today at 06:30:00
-        $totalProcessed = 0;
 
-        // Process interviews in chunks to avoid memory issues
-       Interview::whereDate('remind_me', '<=', $today->toDateString())
-            ->where('reminder_sent', false)
-            ->chunk(100, function ($interviews) use (&$totalProcessed) {
-                foreach ($interviews as $interview) {
+      
+   $now = Carbon::now();
+    $today = $now->copy()->startOfDay();
+    $totalProcessed = 0;
+
+    Interview::where('reminder_sent', false)
+        ->chunk(100, function ($interviews) use (&$totalProcessed, $now) {
+            foreach ($interviews as $interview) {
+                $remindAt = null;
+                $scheduled = Carbon::parse($interview->scheduled_at);
+                $remindMe = $interview->remind_me ? Carbon::parse($interview->remind_me) : null;
+
+                if ($remindMe && $remindMe->isSameDay($scheduled)) {
+                    // 1 hour before interview
+                    $remindAt = $scheduled->copy()->subHour();
+                } elseif ($remindMe) {
+                    // At 6:30 AM on remind_me date
+                    $remindAt = $remindMe->copy()->setTime(6, 30);
+                }
+
+                if ($remindAt && $now->greaterThanOrEqualTo($remindAt)) {
                     SendInterviewReminder::dispatch($interview);
-                      SendInterviewNotification::dispatch($interview);
+                    SendInterviewNotification::dispatch($interview);
                     $totalProcessed++;
                 }
-            });
-
-        $this->info("Dispatched {$totalProcessed} interview reminder jobs.");
+            }
+        });
     }
 }
