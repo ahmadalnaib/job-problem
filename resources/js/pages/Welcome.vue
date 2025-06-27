@@ -82,6 +82,17 @@ const currentYear = new Date().getFullYear();
     <div class="min-h-screen bg-white dark:bg-[#0a0a0a]">
         <!-- Header -->
         <header class="absolute inset-x-0 top-0 z-50">
+            <!-- Place this just after your <header> -->
+            <div class="bg-indigo-600 px-4 py-2 text-center text-white">
+                <a
+                    href="https://apps.apple.com/app/humanhup/id6746925280"
+                    target="_blank"
+                    rel="noopener"
+                    class="inline-flex items-center font-semibold hover:underline"
+                >
+                    📱 Download HumanHup on iOS
+                </a>
+            </div>
             <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
                 <div class="flex lg:flex-1">
                     <a href="#" class="-m-1.5 p-1.5">
@@ -384,27 +395,33 @@ const currentYear = new Date().getFullYear();
         </div>
     </div>
     <!-- Footer -->
-<footer class="relative z-10 bg-gray-900">
-    <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-        <div class="flex flex-col items-center justify-between gap-y-8 md:flex-row md:items-start">
-            <!-- Main navigation -->
-            <nav class="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm/6" aria-label="Footer">
-                <Link :href="route('register')" class="text-gray-400 hover:text-white transition">Get started</Link>
-                <Link :href="route('privacy')" class="text-gray-400 hover:text-white transition">Privacy</Link>
-                <Link :href="route('terms')" class="text-gray-400 hover:text-white transition">Terms</Link>
-            </nav>
-            <!-- Other apps -->
-            <div class="flex flex-col items-center md:items-end">
-                <span class="mb-2 text-xs uppercase tracking-widest text-gray-500">Our Apps</span>
-                <div class="flex gap-x-4">
-                    <a href="https://cheapui.com" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition">CheapUI</a>
-                    <a href="https://foota.ai" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition">Foota.ai</a>
+    <footer class="relative z-10 bg-gray-900">
+        <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+            <div class="flex flex-col items-center justify-between gap-y-8 md:flex-row md:items-start">
+                <!-- Main navigation -->
+                <nav class="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm/6" aria-label="Footer">
+                    <Link :href="route('register')" class="text-gray-400 transition hover:text-white">Get started</Link>
+                    <Link :href="route('privacy')" class="text-gray-400 transition hover:text-white">Privacy</Link>
+                    <Link :href="route('terms')" class="text-gray-400 transition hover:text-white">Terms</Link>
+                </nav>
+                <!-- Other apps -->
+                <div class="flex flex-col items-center md:items-end">
+                    <span class="mb-2 text-xs tracking-widest text-gray-500 uppercase">Our Apps</span>
+                    <div class="flex gap-x-4">
+                        <a href="https://cheapui.com" target="_blank" rel="noopener" class="text-gray-400 transition hover:text-white">CheapUI</a>
+                        <a href="https://foota.ai" target="_blank" rel="noopener" class="text-gray-400 transition hover:text-white">Foota.ai</a>
+                    </div>
+                    <a
+                        href="https://apps.apple.com/app/humanhup/id6746925280"
+                        target="_blank"
+                        rel="noopener"
+                        class="mt-4 inline-flex items-center rounded-md bg-white px-3 py-1.5 text-xs font-semibold text-gray-900 shadow transition hover:bg-gray-100"
+                    >
+                        Download on iOS
+                    </a>
                 </div>
             </div>
+            <p class="mt-10 text-center text-xs text-gray-500">&copy; {{ currentYear }} HumanHup, Inc. All rights reserved.</p>
         </div>
-<p class="mt-10 text-center text-xs text-gray-500">
-  &copy; {{ currentYear }} HumanHup, Inc. All rights reserved.
-</p>
-    </div>
-</footer>
+    </footer>
 </template>
